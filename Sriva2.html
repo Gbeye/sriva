@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sriva – Jobs in Rivers State</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --green:#1a7c4f;--green-light:#e8f5ee;--green-mid:#2da66a;
+  --red:#c0392b;--gold:#e8a020;--dark:#0d1f17;--grey:#f4f6f4;
+  --border:#d4e4d9;--text:#1a2e22;--muted:#6b8c74;--white:#fff;
+  --admin:#1a3a6b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--grey);color:var(--text);min-height:100vh}
+h1,h2,h3,.brand{font-family:'Sora',sans-serif}
+nav{background:var(--dark);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #0006}
+.brand{color:var(--white);font-size:1.5rem;font-weight:800;letter-spacing:-0.5px;cursor:pointer}
+.brand span{color:var(--green-mid)}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav-links button{background:none;border:none;color:#aac9b5;font-family:'DM Sans',sans-serif;font-size:.9rem;cursor:pointer;padding:6px 12px;border-radius:6px;transition:.2s}
+.nav-links button:hover{color:var(--white);background:#1d3628}
+.btn-primary{background:var(--green-mid)!important;color:var(--white)!important;font-weight:600}
+.btn-admin{background:var(--admin)!important;color:var(--white)!important;font-weight:600}
+#job-banner{display:none;background:var(--green);color:#fff;text-align:center;padding:10px 20px;font-size:.9rem;position:relative;animation:slideDown .4s ease}
+@keyframes slideDown{from{transform:translateY(-40px);opacity:0}to{transform:translateY(0);opacity:1}}
+#banner-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1.1rem;background:none;border:none;color:#fff}
+.page{display:none;max-width:960px;margin:0 auto;padding:32px 16px}
+.page.active{display:block}
+.hero{text-align:center;padding:48px 0 32px}
+.hero h1{font-size:2.4rem;font-weight:800;color:var(--dark);line-height:1.2;margin-bottom:12px}
+.hero p{color:var(--muted);font-size:1.05rem;max-width:480px;margin:0 auto 28px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:22px;margin-bottom:14px;transition:.2s}
+.card:hover{border-color:var(--green-mid);box-shadow:0 4px 18px #1a7c4f18}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.card h3{font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:4px;cursor:pointer}
+.card h3:hover{color:var(--green)}
+.badge{display:inline-block;font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--green-light);color:var(--green)}
+.badge.pro{background:#fff8e6;color:var(--gold)}
+.badge.seeker{background:#e8f0ff;color:#2d5be0}
+.badge.filled{background:#fde8e8;color:var(--red)}
+.card-meta{font-size:.82rem;color:var(--muted);margin-top:6px}
+.card-meta span{margin-right:14px}
+/* Like button */
+.like-row{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.like-btn{display:flex;align-items:center;gap:5px;background:none;border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:.85rem;color:var(--muted);transition:.2s;font-family:'DM Sans',sans-serif}
+.like-btn:hover{border-color:var(--green-mid);color:var(--green)}
+.like-btn.liked{background:var(--green-light);border-color:var(--green-mid);color:var(--green);font-weight:600}
+.like-count{font-weight:700;font-size:.9rem}
+.who-liked{font-size:.78rem;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.who-liked:hover{color:var(--green)}
+.form-box{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:32px;max-width:520px;margin:0 auto}
+.form-box h2{font-size:1.4rem;margin-bottom:6px;color:var(--dark)}
+.form-box p.sub{font-size:.87rem;color:var(--muted);margin-bottom:22px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.field input,.field select,.field textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--text);background:var(--grey);outline:none;transition:.2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green-mid);background:#fff}
+.field textarea{min-height:80px;resize:vertical}
+.btn{display:inline-block;padding:11px 24px;border-radius:8px;font-family:'Sora',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;border:none;transition:.2s}
+.btn-green{background:var(--green-mid);color:#fff}
+.btn-green:hover{background:#259159}
+.btn-outline{background:transparent;color:var(--green);border:1.5px solid var(--green-mid)}
+.btn-outline:hover{background:var(--green-light)}
+.btn-red{background:var(--red);color:#fff}
+.btn-blue{background:var(--admin);color:#fff}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-full{width:100%}
+.btn-sm{padding:7px 14px;font-size:.8rem}
+.form-footer{text-align:center;margin-top:16px;font-size:.87rem;color:var(--muted)}
+.form-footer a{color:var(--green);cursor:pointer;font-weight:600}
+.err{color:var(--red);font-size:.82rem;margin-top:8px;display:none;padding:8px 12px;background:#fdf0f0;border-radius:6px}
+.info-msg{color:var(--green);font-size:.82rem;margin-top:8px;display:none;padding:8px 12px;background:var(--green-light);border-radius:6px;border:1px solid var(--border)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.filters input{flex:1;min-width:180px;padding:9px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;background:#fff;outline:none}
+.filters input:focus{border-color:var(--green-mid)}
+.filters select{padding:9px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;background:#fff;outline:none;cursor:pointer}
+/* TABS — fixed for mobile */
+.tabs{display:flex;gap:4px;margin-bottom:22px;background:#e2ede7;border-radius:10px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:9px 14px;text-align:center;border-radius:8px;cursor:pointer;font-family:'Sora',sans-serif;font-weight:600;font-size:.82rem;color:var(--muted);transition:.2s;white-space:nowrap}
+.tab.active{background:var(--white);color:var(--green);box-shadow:0 2px 8px #0001}
+#modal-overlay{display:none;position:fixed;inset:0;background:#0007;z-index:200;align-items:center;justify-content:center;padding:16px}
+#modal-overlay.open{display:flex}
+#modal{background:#fff;border-radius:18px;max-width:560px;width:100%;padding:32px;position:relative;max-height:90vh;overflow-y:auto}
+#modal-close{position:absolute;top:16px;right:18px;font-size:1.4rem;cursor:pointer;color:var(--muted);background:none;border:none}
+.contact-box{background:var(--green-light);border:1.5px solid var(--border);border-radius:10px;padding:16px;margin-top:18px}
+.contact-box.hidden-contact{background:#f4f6f4;border-style:dashed}
+.contact-box h4{font-size:.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
+.contact-item{display:flex;gap:8px;align-items:center;font-size:.92rem;margin-bottom:6px}
+.account-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:500px){.account-grid{grid-template-columns:1fr}}
+.stat-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:18px;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--green);font-family:'Sora',sans-serif}
+.stat-card .lbl{font-size:.8rem;color:var(--muted);margin-top:2px}
+#popup-overlay{display:none;position:fixed;inset:0;background:#0008;z-index:300;align-items:center;justify-content:center}
+#popup-overlay.open{display:flex}
+#popup{background:#fff;border-radius:20px;padding:40px 32px;max-width:380px;width:90%;text-align:center}
+#popup h2{font-size:1.5rem;margin-bottom:10px}
+#popup p{color:var(--muted);margin-bottom:22px;font-size:.93rem}
+.confetti{font-size:2.5rem;margin-bottom:10px}
+#notif-bar{display:none;position:fixed;bottom:24px;right:20px;background:var(--dark);color:#fff;padding:14px 20px;border-radius:12px;font-size:.88rem;max-width:280px;z-index:500;box-shadow:0 4px 20px #0004}
+.empty{text-align:center;padding:48px 20px;color:var(--muted)}
+.empty-icon{font-size:2.5rem;margin-bottom:10px}
+.section-title{font-size:1.2rem;font-weight:700;color:var(--dark);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.count-chip{background:var(--green-light);color:var(--green);font-size:.75rem;font-weight:700;padding:2px 9px;border-radius:12px}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--dark);color:#fff;padding:12px 22px;border-radius:10px;font-size:.9rem;opacity:0;transition:.3s;z-index:999;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.loading{text-align:center;padding:48px;color:var(--muted)}
+/* Admin styles */
+.admin-box{background:#eef2ff;border:1.5px solid #c7d2fe;border-radius:14px;padding:20px;margin-bottom:20px}
+.admin-box h3{color:var(--admin);margin-bottom:14px;font-size:1rem}
+.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:600px){.admin-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:400px){.admin-grid{grid-template-columns:1fr}}
+.admin-stat{background:#fff;border:1.5px solid #c7d2fe;border-radius:10px;padding:14px;text-align:center}
+.admin-stat .n{font-size:1.6rem;font-weight:800;color:var(--admin);font-family:'Sora',sans-serif}
+.admin-stat .l{font-size:.75rem;color:#6b7db3;margin-top:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+/* Payment admin dashboard */
+.pay-box{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}
+.pay-box h4{font-size:.95rem;font-weight:700;color:var(--dark);margin-bottom:12px}
+.pay-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:600px){.pay-stat-grid{grid-template-columns:1fr 1fr}}
+.pay-stat{background:#f8f9fa;border-radius:10px;padding:12px;text-align:center}
+.pay-stat .pn{font-size:1.3rem;font-weight:800;color:var(--admin);font-family:'Sora',sans-serif}
+.pay-stat .pl{font-size:.72rem;color:var(--muted);margin-top:2px}
+.txn-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.txn-row:last-child{border-bottom:none}
+.txn-status{padding:3px 9px;border-radius:12px;font-size:.72rem;font-weight:700}
+.txn-status.success{background:#e8f5ee;color:var(--green)}
+.txn-status.pending{background:#fff8e6;color:var(--gold)}
+.txn-status.failed{background:#fde8e8;color:var(--red)}
+/* Likers modal */
+#likers-overlay{display:none;position:fixed;inset:0;background:#0007;z-index:250;align-items:center;justify-content:center;padding:16px}
+#likers-overlay.open{display:flex}
+#likers-modal{background:#fff;border-radius:16px;max-width:420px;width:100%;padding:28px;position:relative;max-height:80vh;overflow-y:auto}
+.liker-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.liker-row:last-child{border-bottom:none}
+.liker-row:hover .liker-name{color:var(--green);text-decoration:underline}
+.liker-avatar{width:38px;height:38px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--green);font-size:1rem;flex-shrink:0}
+.liker-name{font-weight:600;font-size:.92rem;color:var(--dark)}
+.liker-role{font-size:.78rem;color:var(--muted)}
+/* Liker profile view */
+#liker-profile-overlay{display:none;position:fixed;inset:0;background:#0007;z-index:260;align-items:center;justify-content:center;padding:16px}
+#liker-profile-overlay.open{display:flex}
+#liker-profile-modal{background:#fff;border-radius:18px;max-width:480px;width:100%;padding:32px;position:relative;max-height:85vh;overflow-y:auto}
+/* verify banner */
+.verify-banner{background:#fff8e6;border:1.5px solid #e8d090;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:.88rem;color:#7a5c00;display:flex;align-items:center;gap:8px}
+.verify-banner button{margin-left:auto;background:var(--gold);color:#fff;border:none;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:.82rem;font-family:'DM Sans',sans-serif;font-weight:600;white-space:nowrap}
+/* re-auth modal */
+#reauth-overlay{display:none;position:fixed;inset:0;background:#0008;z-index:400;align-items:center;justify-content:center;padding:16px}
+#reauth-overlay.open{display:flex}
+#reauth-modal{background:#fff;border-radius:18px;max-width:380px;width:100%;padding:32px;text-align:center}
+footer{text-align:center;padding:32px 16px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border);margin-top:40px}
+</style>
+</head>
+<body>
+
+<div id="job-banner">
+  <span id="banner-text">🎉 Someone just got a job!</span>
+  <button id="banner-close" onclick="window._sriva&&window._sriva.closeBanner()">✕</button>
+</div>
+
+<div id="notif-bar"></div>
+
+<nav>
+  <div class="brand" onclick="window._sriva&&window._sriva.showPage('home')">Sri<span>va</span></div>
+  <div class="nav-links" id="nav-links"></div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <h1>Jobs in Rivers State</h1>
+    <p>Connecting job seekers and recruiters across Rivers State — from engineers to POS attendants. No CV needed.</p>
+    <div class="hero-btns">
+      <button class="btn btn-green" onclick="window._sriva&&window._sriva.showPage('signup')">Post a Job</button>
+      <button class="btn btn-outline" onclick="window._sriva&&window._sriva.showPage('signup')">Find a Job</button>
+    </div>
+  </div>
+
+  <div class="tabs" id="home-tabs">
+    <div class="tab active" onclick="window._sriva&&window._sriva.filterTab('all',this)">All</div>
+    <div class="tab" onclick="window._sriva&&window._sriva.filterTab('job',this)">Jobs</div>
+    <div class="tab" onclick="window._sriva&&window._sriva.filterTab('seeker',this)">Seekers</div>
+    <div class="tab" onclick="window._sriva&&window._sriva.filterTab('professional',this)">Professional</div>
+    <div class="tab" onclick="window._sriva&&window._sriva.filterTab('non-professional',this)">Non-Pro</div>
+  </div>
+
+  <div class="filters">
+    <input type="text" id="search-input" placeholder="Search…" oninput="window._sriva&&window._sriva.renderListings()"/>
+    <select id="area-filter" onchange="window._sriva&&window._sriva.renderListings()">
+      <option value="">All Areas</option>
+    </select>
+  </div>
+
+  <div class="section-title">Listings <span class="count-chip" id="listing-count">0</span></div>
+  <div id="listing-list"><div class="loading">Loading…</div></div>
+</div>
+
+<!-- LOGIN -->
+<div class="page" id="page-login">
+  <div class="form-box">
+    <h2>Welcome back</h2>
+    <p class="sub">Log in to your Sriva account</p>
+    <div class="field"><label>Email Address</label><input type="email" id="login-email" placeholder="Your email address"/></div>
+    <div class="field"><label>Password</label><input type="password" id="login-pass" placeholder="Password"/></div>
+    <div class="err" id="login-err"></div>
+    <div style="text-align:right;margin-top:-8px;margin-bottom:12px">
+      <a onclick="window._sriva&&window._sriva.doForgotPassword()" style="font-size:.83rem;color:var(--green);cursor:pointer;font-weight:600">Forgot password?</a>
+    </div>
+    <button class="btn btn-green btn-full" onclick="window._sriva&&window._sriva.doLogin()" style="margin-top:4px">Log In</button>
+    <div class="form-footer">No account? <a onclick="window._sriva&&window._sriva.showPage('signup')">Sign up free</a></div>
+  </div>
+</div>
+
+<!-- SIGNUP -->
+<div class="page" id="page-signup">
+  <div class="form-box">
+    <h2>Create Account</h2>
+    <p class="sub">Join Sriva — completely free</p>
+    <div class="field"><label>Username</label><input type="text" id="su-user" placeholder="Choose a display name (3–30 characters)"/></div>
+    <div class="field"><label>Email Address</label><input type="email" id="su-email" placeholder="Your email address"/></div>
+    <div class="field"><label>Password</label><input type="password" id="su-pass" placeholder="Create a password (min 6 characters)"/></div>
+    <div class="field"><label>Confirm Password</label><input type="password" id="su-pass2" placeholder="Repeat your password"/></div>
+    <div class="field"><label>I am a…</label>
+      <select id="su-role">
+        <option value="seeker">Job Seeker</option>
+        <option value="recruiter">Recruiter / Employer</option>
+      </select>
+    </div>
+    <div class="err" id="su-err"></div>
+    <div class="info-msg" id="su-info"></div>
+    <button class="btn btn-green btn-full" onclick="window._sriva&&window._sriva.doSignup()" style="margin-top:4px">Create Account</button>
+    <div class="form-footer">Already have an account? <a onclick="window._sriva&&window._sriva.showPage('login')">Log in</a></div>
+  </div>
+</div>
+
+<!-- ACCOUNT -->
+<div class="page" id="page-account">
+  <h2 style="margin-bottom:18px" id="dash-title">My Account</h2>
+  <div id="verify-banner-wrap"></div>
+  <div id="admin-section" style="display:none"></div>
+
+  <div class="account-grid" id="account-stats-grid">
+    <div class="stat-card"><div class="num" id="stat-listings">0</div><div class="lbl">My Listings</div></div>
+    <div class="stat-card"><div class="num" id="stat-days">0</div><div class="lbl">Days Active</div></div>
+  </div>
+
+  <!-- RECRUITER POST JOB -->
+  <div id="recruiter-section" style="display:none">
+    <div class="section-title">Post a Job</div>
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:22px;margin-bottom:24px">
+      <div class="field"><label>Job Title</label><input type="text" id="job-title" placeholder="e.g. POS Attendant, Block Moulder, Accountant" maxlength="100"/></div>
+      <div class="field"><label>Job Type</label>
+        <select id="job-type">
+          <option value="professional">Professional</option>
+          <option value="non-professional">Non-Professional</option>
+        </select>
+      </div>
+      <div class="field"><label>LGA</label>
+        <select id="job-lga" onchange="window._sriva&&window._sriva.updateTowns('job-lga','job-town','job-other-wrap')">
+          <option value="">Select LGA…</option>
+        </select>
+      </div>
+      <div class="field"><label>Town / Area</label>
+        <select id="job-town" onchange="window._sriva&&window._sriva.toggleOther('job-town','job-other-wrap')">
+          <option value="">Select LGA first…</option>
+        </select>
+      </div>
+      <div class="field" id="job-other-wrap" style="display:none">
+        <label>Specify Location</label>
+        <input type="text" id="job-other" placeholder="Type your location…" maxlength="80"/>
+      </div>
+      <div class="field"><label>Job Description</label><textarea id="job-desc" placeholder="Describe the role, requirements, pay (if any)…" maxlength="2000"></textarea></div>
+      <div class="field"><label>How to Apply</label>
+        <select id="contact-type" onchange="window._sriva&&window._sriva.toggleContact('contact-type','contact-val','contact-label')">
+          <option value="email">Email Address</option>
+          <option value="phone">Phone Number</option>
+          <option value="social">Social Media Handle</option>
+        </select>
+      </div>
+      <div class="field"><label id="contact-label">Email Address</label><input type="text" id="contact-val" placeholder="e.g. employer@gmail.com" maxlength="100"/></div>
+      <div class="field"><label>Number of Openings</label>
+        <select id="job-slots">
+          <option value="1">1 opening (listing removed when filled)</option>
+          <option value="many">Multiple openings</option>
+        </select>
+      </div>
+      <div class="err" id="post-err"></div>
+      <button class="btn btn-green" onclick="window._sriva&&window._sriva.postJob()" style="margin-top:4px">Post Job</button>
+    </div>
+  </div>
+
+  <!-- SEEKER PROFILE -->
+  <div id="seeker-section" style="display:none">
+    <div class="section-title">My Profile</div>
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:22px;margin-bottom:24px">
+      <div class="field"><label>Job Title / Desired Role</label><input type="text" id="seek-title" placeholder="e.g. Accountant, POS Attendant, Driver" maxlength="80"/></div>
+      <div class="field"><label>Job Type I'm Looking For</label>
+        <select id="seek-type">
+          <option value="professional">Professional</option>
+          <option value="non-professional">Non-Professional</option>
+          <option value="any">Any</option>
+        </select>
+      </div>
+      <div class="field"><label>LGA</label>
+        <select id="seek-lga" onchange="window._sriva&&window._sriva.updateTowns('seek-lga','seek-town','seek-other-wrap')">
+          <option value="">Select LGA…</option>
+        </select>
+      </div>
+      <div class="field"><label>Town / Area</label>
+        <select id="seek-town" onchange="window._sriva&&window._sriva.toggleOther('seek-town','seek-other-wrap')">
+          <option value="">Select LGA first…</option>
+        </select>
+      </div>
+      <div class="field" id="seek-other-wrap" style="display:none">
+        <label>Specify Location</label>
+        <input type="text" id="seek-other" placeholder="Type your location…" maxlength="80"/>
+      </div>
+      <div class="field"><label>Skills / Bio</label><textarea id="seek-bio" placeholder="Describe your skills, experience, what you can do…" maxlength="2000"></textarea></div>
+      <div class="field"><label>How to Contact Me</label>
+        <select id="seek-contact-type" onchange="window._sriva&&window._sriva.toggleContact('seek-contact-type','seek-contact-val','seek-contact-label')">
+          <option value="email">Email Address</option>
+          <option value="phone">Phone Number</option>
+          <option value="social">Social Media Handle</option>
+        </select>
+      </div>
+      <div class="field"><label id="seek-contact-label">Email Address</label><input type="text" id="seek-contact-val" placeholder="e.g. myemail@gmail.com" maxlength="100"/></div>
+      <div class="err" id="seek-err"></div>
+      <button class="btn btn-green" onclick="window._sriva&&window._sriva.postSeeker()" style="margin-top:4px">Save Profile</button>
+    </div>
+  </div>
+
+  <div class="section-title">My Listings</div>
+  <div id="my-listings"></div>
+  <div style="margin-top:30px;padding-top:20px;border-top:1px solid var(--border);display:flex;gap:12px;flex-wrap:wrap">
+    <button class="btn btn-outline" onclick="window._sriva&&window._sriva.doLogout()">Log Out</button>
+    <button class="btn btn-red" onclick="window._sriva&&window._sriva.confirmDelete()">Delete Account</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" onclick="window._sriva&&window._sriva.closeModal(event)">
+  <div id="modal">
+    <button id="modal-close" onclick="window._sriva&&window._sriva.closeModal()">✕</button>
+    <div id="modal-badge"></div>
+    <h2 id="modal-title" style="margin:10px 0 6px"></h2>
+    <div id="modal-meta" style="font-size:.85rem;color:var(--muted);margin-bottom:10px"></div>
+    <p id="modal-desc" style="font-size:.93rem;line-height:1.6"></p>
+    <div class="contact-box" id="modal-contact-box"><h4>Contact</h4><div id="modal-contact"></div></div>
+    <div id="modal-like-row" class="like-row" style="margin-top:16px"></div>
+    <div id="modal-actions" style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- LIKERS MODAL -->
+<div id="likers-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div id="likers-modal">
+    <button style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted)" onclick="document.getElementById('likers-overlay').classList.remove('open')">✕</button>
+    <h3 style="margin-bottom:16px;color:var(--dark)">👍 People who liked this</h3>
+    <div id="likers-list"></div>
+  </div>
+</div>
+
+<!-- LIKER PROFILE MODAL -->
+<div id="liker-profile-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div id="liker-profile-modal">
+    <button style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted)" onclick="document.getElementById('liker-profile-overlay').classList.remove('open')">✕</button>
+    <div id="liker-profile-content"></div>
+  </div>
+</div>
+
+<!-- RE-AUTH MODAL -->
+<div id="reauth-overlay">
+  <div id="reauth-modal">
+    <h3 style="margin-bottom:8px;color:var(--dark)">Confirm Your Identity</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:18px">Enter your password to confirm this deletion.</p>
+    <div class="field"><input type="password" id="reauth-pass" placeholder="Your password"/></div>
+    <div class="err" id="reauth-err"></div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:8px">
+      <button class="btn btn-outline" onclick="window._sriva&&window._sriva.cancelReauth()">Cancel</button>
+      <button class="btn btn-red" onclick="window._sriva&&window._sriva.confirmReauth()">Confirm Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div id="popup-overlay">
+  <div id="popup">
+    <div class="confetti">🎉</div>
+    <h2>Congratulations!</h2>
+    <p id="popup-msg"></p>
+    <button class="btn btn-green btn-full" onclick="window._sriva&&window._sriva.closePopup()">Done</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+<footer>Sriva © 2026 · Jobs in Rivers State · Free for everyone</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app-check.js";
+import {
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signOut, onAuthStateChanged, deleteUser, sendEmailVerification,
+  sendPasswordResetEmail, EmailAuthProvider, reauthenticateWithCredential
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import {
+  getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc,
+  query, orderBy, where, serverTimestamp, runTransaction, arrayUnion, arrayRemove, updateDoc
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyBLuZKFQTmgEQWsaS5wnFF0ZBMNcCM2Wfc",
+  authDomain: "sriva-jobs.firebaseapp.com",
+  projectId: "sriva-jobs",
+  storageBucket: "sriva-jobs.firebasestorage.app",
+  messagingSenderId: "900041052048",
+  appId: "1:900041052048:web:042471fac94fe7b5796d15"
+});
+
+initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6LfTK-IsAAAAAPs6wVC0sFDj8lkFOmt5Jn1fZ9oj'),
+  isTokenAutoRefreshEnabled: true
+});
+
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+const ADMIN_EMAIL = 'jtamunogbeye@gmail.com';
+
+const LGA_DATA = {
+  'Abua-Odual':        ['Abua','Odual','Otari','Other'],
+  'Ahoada East':       ['Ahoada','Mbiama','Odiereke','Other'],
+  'Ahoada West':       ['Ahoada West','Edeoha','Omoku','Other'],
+  'Akuku-Toru':        ['Abonnema','Bukuma','Kula','Soku','Other'],
+  'Andoni':            ['Ngo','Opobo','Andoni','Other'],
+  'Asari-Toru':        ['Buguma','Abalama','Bakana','Degema Hulk','Other'],
+  'Bonny':             ['Bonny Town','Finima','Abalamabie','Other'],
+  'Degema':            ['Degema','Usokun','Ataba','Other'],
+  'Eleme':             ['Eleme','Alesa','Ogale','Ekporo','Other'],
+  'Emohua':            ['Emohua','Obele','Rumuji','Other'],
+  'Etche':             ['Okehi','Umuechem','Chokocho','Other'],
+  'Gokana':            ['Bori','Barako','Biara','Other'],
+  'Ikwerre':           ['Isiokpo','Igwuruta','Rumuola','Other'],
+  'Khana':             ['Sogho','Lueku','Bera','Other'],
+  'Obio-Akpor':        ['Rukpokwu','Rumuibekwe','Rumuokoro','Rumuodara','Woji','Trans-Amadi','Rumuepirikom','Other'],
+  'Ogba-Egbema-Ndoni': ['Omoku','Egbema','Ndoni','Obagi','Other'],
+  'Ogu-Bolo':          ['Ogu','Bolo','Other'],
+  'Okrika':            ['Okrika','Ibaka','Tom Angalabiri','Other'],
+  'Omuma':             ['Omuma','Other'],
+  'Opobo-Nkoro':       ['Opobo','Nkoro','Other'],
+  'Oyigbo':            ['Oyigbo','Isiokpo','Other'],
+  'Port Harcourt':     ['D/Line','GRA','Mile 1','Mile 2','Mile 3','Mile 4','Diobu','Rumuigbo','Rumuokwurusi','Choba','Woji','Other'],
+  'Tai':               ['Tai','Nonwa','Korokoro','Other'],
+};
+const LGA_LIST = Object.keys(LGA_DATA).sort();
+
+let currentUser    = null;
+let currentProfile = null;
+let allListings    = [];
+let currentTab     = 'all';
+let notifTimer     = null;
+let _reauthCallback = null;
+
+const gi  = id => document.getElementById(id);
+const esc = s  => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+function showEl(id,msg){const e=gi(id);if(!e)return;e.style.display='block';if(msg!==undefined)e.textContent=msg;}
+function hideEl(id){const e=gi(id);if(e)e.style.display='none';}
+
+function timeAgo(val){
+  if(!val) return '';
+  let ms = typeof val.toMillis==='function' ? val.toMillis() : val;
+  const d=(Date.now()-ms)/1000;
+  if(d<60) return 'just now';
+  if(d<3600) return Math.floor(d/60)+'m ago';
+  if(d<86400) return Math.floor(d/3600)+'h ago';
+  return Math.floor(d/86400)+'d ago';
+}
+
+function getDays(val){
+  if(!val) return 0;
+  let ms = typeof val.toMillis==='function' ? val.toMillis() : val;
+  const result = Math.floor((Date.now()-ms)/(1000*60*60*24));
+  return Math.max(0, result);
+}
+
+let _tt;
+function toast(msg){
+  const e=gi('toast');e.textContent=msg;e.classList.add('show');
+  clearTimeout(_tt);_tt=setTimeout(()=>e.classList.remove('show'),3000);
+}
+
+// ── LGA DROPDOWNS ────────────────────────────────────────────────────────
+function populateLGAs(){
+  ['job-lga','seek-lga'].forEach(id=>{
+    const el=gi(id); if(!el) return;
+    el.innerHTML='<option value="">Select LGA…</option>';
+    LGA_LIST.forEach(lga=>el.innerHTML+=`<option value="${lga}">${lga}</option>`);
+  });
+  const af=gi('area-filter');
+  if(af){
+    af.innerHTML='<option value="">All Areas</option>';
+    LGA_LIST.forEach(lga=>af.innerHTML+=`<option value="${lga}">${lga}</option>`);
+  }
+}
+
+function updateTowns(lgaId, townId, wrapId){
+  const lgaEl=gi(lgaId); if(!lgaEl) return;
+  const lga=lgaEl.value;
+  const town=gi(townId);
+  hideEl(wrapId);
+  if(!lga){if(town)town.innerHTML='<option>Select LGA first…</option>';return;}
+  const towns=LGA_DATA[lga]||['Other'];
+  if(town) town.innerHTML=towns.map(t=>`<option value="${t}">${t}</option>`).join('');
+  toggleOther(townId,wrapId);
+}
+
+function toggleOther(townId, wrapId){
+  const el=gi(townId); if(!el) return;
+  el.value==='Other' ? showEl(wrapId) : hideEl(wrapId);
+}
+
+function toggleContact(typeId, valId, labelId){
+  const el=gi(typeId); if(!el) return;
+  const t=el.value;
+  const lbl=gi(labelId); if(lbl) lbl.textContent={email:'Email Address',phone:'Phone Number',social:'Social Media Handle'}[t];
+  const inp=gi(valId); if(inp) inp.placeholder={email:'e.g. employer@gmail.com',phone:'e.g. 08012345678',social:'e.g. @yourhandle'}[t];
+}
+
+function getLocation(lgaId, townId, otherId){
+  const lga=(gi(lgaId)?.value)||'';
+  const town=(gi(townId)?.value)||'';
+  const other=(gi(otherId)?.value?.trim())||'';
+  if(!lga) return '';
+  if(town==='Other') return `${lga} — ${other||'Other'}`;
+  return `${lga} — ${town}`;
+}
+
+// ── SUCCESS COUNTER ──────────────────────────────────────────────────────
+async function incrementSuccess(type){
+  try {
+    const ref=doc(db,'meta','stats');
+    await runTransaction(db, async tx=>{
+      const snap=await tx.get(ref);
+      const data=snap.exists()?snap.data():{total:0,job_filled:0,job_gotten:0};
+      tx.set(ref,{
+        total:(data.total||0)+1,
+        job_filled:(data.job_filled||0)+(type==='job_filled'?1:0),
+        job_gotten:(data.job_gotten||0)+(type==='job_gotten'?1:0),
+        last_event:serverTimestamp()
+      });
+    });
+    showNotifBar();
+  } catch(e){console.error(e);}
+}
+
+async function getStats(){
+  try {
+    const snap=await getDoc(doc(db,'meta','stats'));
+    return snap.exists()?snap.data():{total:0,job_filled:0,job_gotten:0};
+  } catch(e){return {total:0,job_filled:0,job_gotten:0};}
+}
+
+function showNotifBar(){
+  getStats().then(s=>{
+    const nb=gi('notif-bar');
+    nb.innerHTML=`🎉 ${s.total} person${s.total!==1?'s have':' has'} gotten connected through Sriva!`;
+    nb.style.display='block';
+    clearTimeout(notifTimer);
+    notifTimer=setTimeout(()=>nb.style.display='none',5*60*1000);
+  });
+}
+
+// ── AUTH STATE ───────────────────────────────────────────────────────────
+onAuthStateChanged(auth, async user=>{
+  if(user){
+    currentUser=user;
+    try {
+      const snap=await getDoc(doc(db,'users',user.uid));
+      if(snap.exists()){
+        const data=snap.data();
+        // No more 30-day deletion — only subscription (now free)
+        await setDoc(doc(db,'users',user.uid),{...data,lastActive:serverTimestamp()},{merge:true});
+        currentProfile={...data};
+      }
+    } catch(e){console.error(e);}
+  } else {
+    currentUser=null;currentProfile=null;
+  }
+  updateNav();
+  loadListings();
+});
+
+// ── SIGNUP ───────────────────────────────────────────────────────────────
+async function doSignup(){
+  const username=gi('su-user').value.trim(),email=gi('su-email').value.trim(),
+        pass=gi('su-pass').value.trim(),pass2=gi('su-pass2').value.trim(),
+        role=gi('su-role').value;
+  hideEl('su-err');hideEl('su-info');
+  if(!username||!email||!pass||!pass2){showEl('su-err','Please fill in all fields.');return;}
+  if(username.length<3||username.length>30){showEl('su-err','Username must be 3–30 characters.');return;}
+  if(pass.length<6){showEl('su-err','Password must be at least 6 characters.');return;}
+  if(pass!==pass2){showEl('su-err','Passwords do not match.');return;}
+  try {
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
+    await sendEmailVerification(cred.user);
+    const now=serverTimestamp();
+    const profile={username,email,role,createdAt:now,lastActive:now,emailVerified:false};
+    await setDoc(doc(db,'users',cred.user.uid),profile);
+    currentProfile={...profile};
+    gi('su-user').value='';gi('su-email').value='';gi('su-pass').value='';gi('su-pass2').value='';
+    showEl('su-info','✅ Account created! A verification email has been sent. Please verify before posting.');
+    toast('Welcome to Sriva! 🎉 Check your email to verify.');
+    setTimeout(()=>showPage('account'),1500);
+  } catch(e){
+    const msgs={'auth/email-already-in-use':'Email already registered. Try logging in.','auth/invalid-email':'Invalid email address.','auth/weak-password':'Password must be at least 6 characters.'};
+    showEl('su-err',msgs[e.code]||'Error creating account. Try again.');
+  }
+}
+
+// ── LOGIN ────────────────────────────────────────────────────────────────
+async function doLogin(){
+  const email=gi('login-email').value.trim(),pass=gi('login-pass').value.trim();
+  hideEl('login-err');
+  if(!email||!pass){showEl('login-err','Please enter your email and password.');return;}
+  try {
+    await signInWithEmailAndPassword(auth,email,pass);
+    toast('Welcome back!');showPage('account');
+  } catch(e){
+    const msgs={'auth/user-not-found':'No account found.','auth/wrong-password':'Incorrect password.','auth/invalid-credential':'Incorrect email or password.'};
+    showEl('login-err',msgs[e.code]||'Login failed. Try again.');
+  }
+}
+
+async function doForgotPassword(){
+  const email=gi('login-email').value.trim();
+  hideEl('login-err');
+  if(!email){showEl('login-err','Enter your email address above first.');return;}
+  try{
+    await sendPasswordResetEmail(auth,email);
+    toast('Password reset email sent! Check your inbox.');
+  } catch(e){showEl('login-err','Could not send reset email. Check the address.');}
+}
+
+async function doLogout(){await signOut(auth);showPage('home');toast('Logged out.');}
+
+// ── RE-AUTH BEFORE DELETION ──────────────────────────────────────────────
+function confirmDelete(){
+  _reauthCallback = ()=>nukeUser(true);
+  gi('reauth-pass').value='';
+  hideEl('reauth-err');
+  gi('reauth-overlay').classList.add('open');
+}
+
+function cancelReauth(){
+  gi('reauth-overlay').classList.remove('open');
+  _reauthCallback=null;
+}
+
+async function confirmReauth(){
+  const pass=gi('reauth-pass').value;
+  hideEl('reauth-err');
+  if(!pass){showEl('reauth-err','Enter your password.');return;}
+  try{
+    const cred=EmailAuthProvider.credential(currentUser.email,pass);
+    await reauthenticateWithCredential(currentUser,cred);
+    gi('reauth-overlay').classList.remove('open');
+    if(_reauthCallback) _reauthCallback();
+    _reauthCallback=null;
+  } catch(e){
+    showEl('reauth-err','Incorrect password. Try again.');
+  }
+}
+
+// Admin delete listing with re-auth check
+function adminDeleteListing(id, col){
+  _reauthCallback = async ()=>{
+    const pass=gi('reauth-pass').value;
+    // already re-authed, proceed
+    try {
+      await deleteDoc(doc(db,col,id));
+      allListings=allListings.filter(x=>x.id!==id);
+      closeModal();
+      toast('Listing deleted by admin ✅');
+      renderListings();renderAccount();
+    } catch(e){toast('Error deleting listing.');}
+  };
+  gi('reauth-pass').value='';
+  hideEl('reauth-err');
+  gi('reauth-overlay').classList.add('open');
+}
+
+async function nukeUser(showMsg){
+  if(!currentUser) return;
+  try {
+    const uid=currentUser.uid;
+    for(const col of ['jobs','seekers']){
+      const snap=await getDocs(query(collection(db,col),where('poster','==',uid)));
+      for(const d of snap.docs) await deleteDoc(d.ref);
+    }
+    await deleteDoc(doc(db,'users',uid));
+    await deleteUser(currentUser);
+    currentUser=null;currentProfile=null;
+    if(showMsg) toast('Account deleted.');
+    await loadListings();showPage('home');
+  } catch(e){console.error(e);toast('Error deleting. Try logging out and back in first.');}
+}
+
+// ── POST JOB ─────────────────────────────────────────────────────────────
+async function postJob(){
+  if(!currentUser){toast('Please log in.');return;}
+  if(!currentUser.emailVerified){toast('Please verify your email first. Check your inbox.');return;}
+  hideEl('post-err');
+  const title=gi('job-title').value.trim(),type=gi('job-type').value,
+        desc=gi('job-desc').value.trim(),ctype=gi('contact-type').value,
+        cval=gi('contact-val').value.trim(),slots=gi('job-slots').value;
+  const location=getLocation('job-lga','job-town','job-other');
+  if(!title||!desc||!cval||!location){showEl('post-err','Please fill all fields including location.');return;}
+  if(title.length<3){showEl('post-err','Job title too short.');return;}
+  if(desc.length<6){showEl('post-err','Description too short.');return;}
+  try {
+    const id='j'+Date.now();
+    await setDoc(doc(db,'jobs',id),{id,title,type,location,desc,contactType:ctype,contactVal:cval,slots,poster:currentUser.uid,postedAt:serverTimestamp(),likes:[],filled:false});
+    gi('job-title').value='';gi('job-desc').value='';gi('contact-val').value='';
+    toast('Job posted! ✅');await loadListings();renderAccount();
+  } catch(e){showEl('post-err','Error posting. Check your connection.');console.error(e);}
+}
+
+// ── POST SEEKER ──────────────────────────────────────────────────────────
+async function postSeeker(){
+  if(!currentUser){toast('Please log in.');return;}
+  if(!currentUser.emailVerified){toast('Please verify your email first. Check your inbox.');return;}
+  hideEl('seek-err');
+  const seekTitle=(gi('seek-title')?.value.trim())||'';
+  const type=gi('seek-type').value,bio=gi('seek-bio').value.trim(),
+        ctype=gi('seek-contact-type').value,cval=gi('seek-contact-val').value.trim();
+  const location=getLocation('seek-lga','seek-town','seek-other');
+  if(!bio||!cval||!location){showEl('seek-err','Please fill all fields including location.');return;}
+  if(bio.length<10){showEl('seek-err','Bio too short. Tell us more about yourself.');return;}
+  try {
+    const id='s'+Date.now();
+    const old=await getDocs(query(collection(db,'seekers'),where('poster','==',currentUser.uid)));
+    for(const d of old.docs) await deleteDoc(d.ref);
+    await setDoc(doc(db,'seekers',id),{id,type,seekTitle,location,bio,contactType:ctype,contactVal:cval,poster:currentUser.uid,username:currentProfile?.username||'',postedAt:serverTimestamp(),likes:[],filled:false});
+    toast('Profile saved! ✅');await loadListings();renderAccount();
+  } catch(e){showEl('seek-err','Error saving. Check your connection.');console.error(e);}
+}
+
+// ── MARK FILLED ──────────────────────────────────────────────────────────
+async function markFilled(jobId){
+  if(!currentUser) return;
+  const item=allListings.find(j=>j.id===jobId);if(!item) return;
+  const isAdmin=currentProfile?.email===ADMIN_EMAIL;
+  if(item.poster!==currentUser.uid && !isAdmin){toast('Only the poster or admin can mark this.');return;}
+  try {
+    await deleteDoc(doc(db,'jobs',jobId));
+    await incrementSuccess('job_filled');
+    showBanner(item.title||'a position');
+    allListings=allListings.filter(j=>j.id!==jobId);
+    closeModal();
+    // Only auto-delete poster account if it was their only listing AND they chose slots=1 AND they are NOT admin
+    if(!isAdmin && item.slots==='1'){
+      const myLeft=allListings.filter(j=>j.poster===item.poster&&j._col==='jobs');
+      if(myLeft.length===0){
+        setTimeout(()=>showPopup('You filled your only job listing. Your account has been removed. Thank you for using Sriva!'),400);
+        // Switch to poster context for deletion only if current user is that poster
+        if(currentUser.uid===item.poster) setTimeout(()=>nukeUser(false),2500);
+      } else {renderListings();renderAccount();}
+    } else {
+      renderListings();renderAccount();
+      if(isAdmin) toast('Marked as filled ✅');
+    }
+  } catch(e){console.error(e);}
+}
+
+// ── MARK GOTTEN ──────────────────────────────────────────────────────────
+async function markGotten(seekId){
+  if(!currentUser) return;
+  const item=allListings.find(s=>s.id===seekId);if(!item) return;
+  const isAdmin=currentProfile?.email===ADMIN_EMAIL;
+  if(item.poster!==currentUser.uid && !isAdmin){toast('Only the poster or admin can mark this.');return;}
+  try {
+    await deleteDoc(doc(db,'seekers',seekId));
+    await incrementSuccess('job_gotten');
+    showBanner('a job seeker just got connected!');
+    allListings=allListings.filter(s=>s.id!==seekId);
+    closeModal();
+    if(!isAdmin){
+      setTimeout(()=>showPopup('Congratulations on getting connected! Your profile has been removed. Thank you for using Sriva!'),400);
+      if(currentUser.uid===item.poster) setTimeout(()=>nukeUser(false),2500);
+    } else {
+      renderListings();renderAccount();
+      toast('Marked as gotten ✅');
+    }
+  } catch(e){console.error(e);}
+}
+
+// ── LIKES ────────────────────────────────────────────────────────────────
+async function toggleLike(itemId){
+  if(!currentUser){toast('Log in to like listings.');return;}
+  const item=allListings.find(x=>x.id===itemId);if(!item) return;
+  const col=item._col;
+  const uid=currentUser.uid;
+  const likes=item.likes||[];
+  const alreadyLiked=likes.includes(uid);
+  try {
+    const ref=doc(db,col,itemId);
+    if(alreadyLiked){
+      await updateDoc(ref,{likes:arrayRemove(uid)});
+      item.likes=likes.filter(u=>u!==uid);
+    } else {
+      await updateDoc(ref,{likes:arrayUnion(uid)});
+      item.likes=[...likes,uid];
+    }
+    renderListings();
+    // If modal is open, refresh like row
+    const modalOpen=gi('modal-overlay').classList.contains('open');
+    if(modalOpen) renderModalLikeRow(item);
+  } catch(e){console.error(e);}
+}
+
+function renderModalLikeRow(item){
+  const row=gi('modal-like-row');
+  if(!row) return;
+  const uid=currentUser?.uid;
+  const likes=item.likes||[];
+  const liked=uid&&likes.includes(uid);
+  const count=likes.length;
+  const isOwner=uid&&(item.poster===uid||currentProfile?.email===ADMIN_EMAIL);
+  row.innerHTML=`
+    <button class="like-btn${liked?' liked':''}" onclick="window._sriva&&window._sriva.toggleLike('${esc(item.id)}')">
+      👍 <span class="like-count">${count>0?count:''}</span>
+    </button>
+    ${count>0&&isOwner?`<span class="who-liked" onclick="window._sriva&&window._sriva.showLikers('${esc(item.id)}')">See who liked (${count})</span>`:''}
+  `;
+}
+
+async function showLikers(itemId){
+  const item=allListings.find(x=>x.id===itemId);if(!item) return;
+  const likes=item.likes||[];
+  const list=gi('likers-list');
+  list.innerHTML='<div class="loading" style="padding:20px">Loading…</div>';
+  gi('likers-overlay').classList.add('open');
+  if(!likes.length){list.innerHTML='<p style="color:var(--muted);text-align:center;padding:20px">No likes yet.</p>';return;}
+  const rows=[];
+  for(const uid of likes){
+    try{
+      const snap=await getDoc(doc(db,'users',uid));
+      if(snap.exists()){
+        const u=snap.data();
+        rows.push({uid,username:u.username||'User',role:u.role||'user',email:u.email||''});
+      }
+    } catch(e){}
+  }
+  list.innerHTML=rows.map(u=>`
+    <div class="liker-row" onclick="window._sriva&&window._sriva.viewLikerProfile('${esc(u.uid)}')">
+      <div class="liker-avatar">${(u.username||'U')[0].toUpperCase()}</div>
+      <div>
+        <div class="liker-name">${esc(u.username)}</div>
+        <div class="liker-role">${u.role==='recruiter'?'Recruiter':'Job Seeker'}</div>
+      </div>
+      <span style="margin-left:auto;font-size:.78rem;color:var(--green)">View →</span>
+    </div>
+  `).join('')||'<p style="color:var(--muted);text-align:center;padding:20px">No user data found.</p>';
+}
+
+async function viewLikerProfile(uid){
+  const snap=await getDoc(doc(db,'users',uid));
+  if(!snap.exists()){toast('Profile not found.');return;}
+  const u=snap.data();
+  // Get their listings
+  let listingsHTML='';
+  try{
+    const jobs=await getDocs(query(collection(db,'jobs'),where('poster','==',uid)));
+    const seekers=await getDocs(query(collection(db,'seekers'),where('poster','==',uid)));
+    const items=[...jobs.docs.map(d=>({...d.data(),_col:'jobs'})),...seekers.docs.map(d=>({...d.data(),_col:'seekers'}))];
+    if(items.length){
+      listingsHTML=`<div style="margin-top:16px"><strong style="font-size:.85rem;color:var(--muted)">THEIR LISTINGS</strong>`+
+        items.map(item=>`<div class="card" style="margin-top:8px;cursor:default">
+          <h3 style="font-size:.95rem">${item._col==='jobs'?esc(item.title):`Seeker: ${esc(item.username||'')}`}</h3>
+          <div class="card-meta"><span>📍 ${esc(item.location||'')}</span></div>
+        </div>`).join('')+'</div>';
+    }
+  }catch(e){}
+  const days=getDays(u.createdAt);
+  gi('liker-profile-content').innerHTML=`
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;color:var(--green);margin:0 auto 10px">${(u.username||'U')[0].toUpperCase()}</div>
+      <h2 style="font-size:1.3rem;color:var(--dark)">${esc(u.username||'User')}</h2>
+      <div style="font-size:.85rem;color:var(--muted)">${u.role==='recruiter'?'Recruiter / Employer':'Job Seeker'} · ${days} day${days!==1?'s':''} on Sriva</div>
+    </div>
+    ${listingsHTML}
+  `;
+  gi('likers-overlay').classList.remove('open');
+  gi('liker-profile-overlay').classList.add('open');
+}
+
+// ── LOAD LISTINGS ────────────────────────────────────────────────────────
+async function loadListings(){
+  gi('listing-list').innerHTML='<div class="loading">Loading…</div>';
+  try {
+    const [jobsSnap,seekSnap]=await Promise.all([
+      getDocs(query(collection(db,'jobs'),orderBy('postedAt','desc'))),
+      getDocs(query(collection(db,'seekers'),orderBy('postedAt','desc')))
+    ]);
+    const jobs=jobsSnap.docs.map(d=>({...d.data(),_col:'jobs'}));
+    const seekers=seekSnap.docs.map(d=>({...d.data(),_col:'seekers'}));
+    allListings=[...jobs,...seekers].sort((a,b)=>{
+      const ta=a.postedAt?.toMillis?.()||0;
+      const tb=b.postedAt?.toMillis?.()||0;
+      return tb-ta;
+    });
+    renderListings();
+  } catch(e){
+    gi('listing-list').innerHTML='<div class="empty"><div class="empty-icon">⚠️</div>Could not load. Check your internet.</div>';
+  }
+}
+
+function renderListings(){
+  const q=(gi('search-input').value||'').toLowerCase();
+  const area=gi('area-filter').value;
+  const list=allListings.filter(item=>{
+    const isJob=item._col==='jobs';
+    const matchTab=currentTab==='all'||(currentTab==='job'&&isJob)||(currentTab==='seeker'&&!isJob)||
+                   (currentTab==='professional'&&(isJob?item.type==='professional':item.type==='professional'))||
+                   (currentTab==='non-professional'&&(isJob?item.type==='non-professional':item.type==='non-professional'));
+    const matchQ=!q||(item.title||'').toLowerCase().includes(q)||(item.bio||'').toLowerCase().includes(q)||(item.desc||'').toLowerCase().includes(q)||(item.username||'').toLowerCase().includes(q)||(item.seekTitle||'').toLowerCase().includes(q);
+    const matchArea=!area||(item.location||'').includes(area);
+    return matchTab&&matchQ&&matchArea;
+  });
+  gi('listing-count').textContent=list.length;
+  const uid=currentUser?.uid;
+  gi('listing-list').innerHTML=list.length?list.map(item=>{
+    const isJob=item._col==='jobs';
+    const label=isJob?esc(item.title):`${esc(item.username||'Seeker')}${item.seekTitle?` — ${esc(item.seekTitle)}`:''}`;
+    const typeLabel=isJob?(item.type==='professional'?'Professional':'Non-Professional'):'Job Seeker';
+    const badgeClass=isJob?(item.type==='professional'?'pro':''):'seeker';
+    const likes=item.likes||[];
+    const liked=uid&&likes.includes(uid);
+    const likeCount=likes.length;
+    return `<div class="card">
+      <div class="card-top" onclick="window._sriva&&window._sriva.openListing('${esc(item.id)}')">
+        <div><h3>${label}</h3><span class="badge ${badgeClass}">${typeLabel}</span>${item.filled?'<span class="badge filled" style="margin-left:4px">Filled</span>':''}</div>
+        <span style="font-size:.8rem;color:var(--muted);white-space:nowrap">${timeAgo(item.postedAt)}</span>
+      </div>
+      <div class="card-meta" onclick="window._sriva&&window._sriva.openListing('${esc(item.id)}')"><span>📍 ${esc(item.location||'')}</span><span>${isJob?'💼 Job Opening':'👤 Looking for Work'}</span></div>
+      <div class="like-row">
+        <button class="like-btn${liked?' liked':''}" onclick="window._sriva&&window._sriva.toggleLike('${esc(item.id)}')">
+          👍 ${likeCount>0?`<span class="like-count">${likeCount}</span>`:''}
+        </button>
+        ${likeCount>0&&uid&&(item.poster===uid||currentProfile?.email===ADMIN_EMAIL)?`<span class="who-liked" onclick="window._sriva&&window._sriva.showLikers('${esc(item.id)}')">Who liked (${likeCount})</span>`:''}
+      </div>
+    </div>`;
+  }).join(''):'<div class="empty"><div class="empty-icon">🔍</div>No listings found.</div>';
+}
+
+// ── RENDER ACCOUNT ───────────────────────────────────────────────────────
+async function renderAccount(){
+  if(!currentUser) return;
+  try {
+    // Reload user to get latest emailVerified status
+    await currentUser.reload();
+    const snap=await getDoc(doc(db,'users',currentUser.uid));
+    if(!snap.exists()) return;
+    currentProfile=snap.data();
+    const isAdmin=currentProfile.email===ADMIN_EMAIL;
+    gi('dash-title').textContent=`Hi, ${currentProfile.username} 👋${isAdmin?' 🛡️ Admin':''}`;
+    const days=getDays(currentProfile.createdAt);
+    const dayEl=gi('stat-days');
+    if(dayEl) dayEl.textContent=days;
+
+    // Email verification banner (not for admin)
+    const vbw=gi('verify-banner-wrap');
+    if(!isAdmin && !currentUser.emailVerified){
+      vbw.innerHTML=`<div class="verify-banner">⚠️ Please verify your email to post listings. <button onclick="window._sriva&&window._sriva.resendVerification()">Resend Email</button></div>`;
+    } else {
+      vbw.innerHTML='';
+    }
+
+    const myItems=allListings.filter(j=>j.poster===currentUser.uid);
+    gi('stat-listings').textContent=myItems.length;
+
+    // Show/hide sections
+    gi('recruiter-section').style.display=(!isAdmin&&currentProfile.role==='recruiter')?'block':'none';
+    gi('seeker-section').style.display=(!isAdmin&&currentProfile.role==='seeker')?'block':'none';
+
+    // Admin section
+    const as=gi('admin-section');
+    if(isAdmin){as.style.display='block';await renderAdmin(as);}
+    else as.style.display='none';
+
+    const ml=gi('my-listings');
+    if(!myItems.length && !isAdmin){
+      ml.innerHTML=`<div class="empty"><div class="empty-icon">${currentProfile.role==='seeker'?'👤':'📋'}</div>${currentProfile.role==='seeker'?'Set up your seeker profile above so recruiters can find you.':'No job listings yet. Post your first job above!'}</div>`;
+      return;
+    }
+    if(isAdmin){
+      // Admin sees all listings with delete + mark filled controls
+      ml.innerHTML='<div style="margin-bottom:10px;font-size:.85rem;color:var(--muted)">Admin can manage all listings below from the full listing view.</div>';
+      return;
+    }
+    ml.innerHTML=myItems.map(item=>{
+      const isJob=item._col==='jobs';
+      const likes=item.likes||[];
+      return `<div class="card">
+        <div class="card-top">
+          <div><h3 style="cursor:default">${isJob?esc(item.title):'My Seeker Profile'}</h3><span class="badge ${isJob&&item.type==='professional'?'pro':!isJob?'seeker':''}">${isJob?(item.type==='professional'?'Professional':'Non-Professional'):'Seeker'}</span></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${isJob
+              ?`<button class="btn btn-red btn-sm" onclick="window._sriva&&window._sriva.markFilled('${esc(item.id)}')">Job Filled</button>`
+              :`<button class="btn btn-green btn-sm" onclick="window._sriva&&window._sriva.markGotten('${esc(item.id)}')">Job Gotten ✓</button>`}
+          </div>
+        </div>
+        <div class="card-meta"><span>📍 ${esc(item.location||'')}</span><span>${timeAgo(item.postedAt)}</span></div>
+        ${likes.length>0?`<div style="margin-top:8px;font-size:.82rem;color:var(--muted)">👍 ${likes.length} like${likes.length!==1?'s':''} · <span class="who-liked" onclick="window._sriva&&window._sriva.showLikers('${esc(item.id)}')">See who liked</span></div>`:''}
+      </div>`;
+    }).join('');
+  } catch(e){console.error(e);}
+}
+
+async function resendVerification(){
+  if(!currentUser) return;
+  try{
+    await sendEmailVerification(currentUser);
+    toast('Verification email sent! Check your inbox.');
+  }catch(e){toast('Could not resend. Try again shortly.');}
+}
+
+// ── ADMIN ────────────────────────────────────────────────────────────────
+async function renderAdmin(container){
+  const stats=await getStats();
+  const usersSnap=await getDocs(collection(db,'users'));
+  const users=usersSnap.docs.map(d=>d.data());
+  const recruiters=users.filter(u=>u.role==='recruiter').length;
+  const seekerUsers=users.filter(u=>u.role==='seeker').length;
+  const jobsSnap=await getDocs(collection(db,'jobs'));
+  const seekSnap=await getDocs(collection(db,'seekers'));
+  const locCount={};
+  [...jobsSnap.docs,...seekSnap.docs].forEach(d=>{
+    const loc=(d.data().location||'').split(' — ')[0];
+    if(loc) locCount[loc]=(locCount[loc]||0)+1;
+  });
+  const topLocs=Object.entries(locCount).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  // Payment data (from Firestore 'payments' collection)
+  let payRows=[];
+  let totalRevenue=0,totalWithdrawals=0,pendingPay=0,successPay=0,failedPay=0;
+  try{
+    const paySnap=await getDocs(query(collection(db,'payments'),orderBy('createdAt','desc')));
+    payRows=paySnap.docs.map(d=>d.data());
+    payRows.forEach(p=>{
+      if(p.status==='success') {totalRevenue+=(p.amount||0);successPay++;}
+      else if(p.status==='pending') pendingPay++;
+      else if(p.status==='failed') failedPay++;
+    });
+    const wSnap=await getDocs(query(collection(db,'withdrawals'),orderBy('createdAt','desc')));
+    wSnap.docs.forEach(d=>totalWithdrawals+=(d.data().amount||0));
+  }catch(e){}
+
+  container.innerHTML=`<div class="admin-box">
+    <h3>🛡️ Admin Dashboard</h3>
+    <div class="admin-grid">
+      <div class="admin-stat"><div class="n">${stats.total||0}</div><div class="l">Total Connections</div></div>
+      <div class="admin-stat"><div class="n">${stats.job_filled||0}</div><div class="l">Jobs Filled</div></div>
+      <div class="admin-stat"><div class="n">${stats.job_gotten||0}</div><div class="l">Jobs Gotten</div></div>
+      <div class="admin-stat"><div class="n">${users.length}</div><div class="l">Total Users</div></div>
+      <div class="admin-stat"><div class="n">${recruiters}</div><div class="l">Recruiters</div></div>
+      <div class="admin-stat"><div class="n">${seekerUsers}</div><div class="l">Seekers</div></div>
+      <div class="admin-stat"><div class="n">${jobsSnap.size}</div><div class="l">Active Jobs</div></div>
+      <div class="admin-stat"><div class="n">${seekSnap.size}</div><div class="l">Active Seekers</div></div>
+    </div>
+    <div style="margin-bottom:20px"><strong style="font-size:.85rem;color:var(--admin)">Top Locations:</strong><br/>
+      ${topLocs.map(([loc,count])=>`<span style="font-size:.82rem;color:var(--muted);margin-right:12px">📍 ${esc(loc)}: <strong>${count}</strong></span>`).join('')||'<span style="color:var(--muted);font-size:.82rem">No data yet.</span>'}
+    </div>
+
+    <!-- EARNINGS DASHBOARD -->
+    <div class="pay-box">
+      <h4>💰 Earnings Dashboard</h4>
+      <div class="pay-stat-grid">
+        <div class="pay-stat"><div class="pn">₦${(totalRevenue/100).toLocaleString('en-NG',{minimumFractionDigits:2})}</div><div class="pl">Total Revenue</div></div>
+        <div class="pay-stat"><div class="pn">₦${(totalWithdrawals/100).toLocaleString('en-NG',{minimumFractionDigits:2})}</div><div class="pl">Total Withdrawals</div></div>
+        <div class="pay-stat"><div class="pn">₦${((totalRevenue-totalWithdrawals)/100).toLocaleString('en-NG',{minimumFractionDigits:2})}</div><div class="pl">Balance</div></div>
+        <div class="pay-stat"><div class="pn">${successPay}</div><div class="pl">Successful Payments</div></div>
+        <div class="pay-stat"><div class="pn">${pendingPay}</div><div class="pl">Pending Payments</div></div>
+        <div class="pay-stat"><div class="pn">${failedPay}</div><div class="pl">Failed Payments</div></div>
+      </div>
+      <button class="btn btn-green btn-sm" style="margin-bottom:14px" onclick="window._sriva&&window._sriva.initiateWithdrawal()">💳 Withdraw Funds</button>
+      <div style="font-weight:600;font-size:.85rem;color:var(--dark);margin-bottom:8px">Recent Transactions</div>
+      ${payRows.length?payRows.slice(0,10).map(p=>`
+        <div class="txn-row">
+          <div>
+            <div style="font-weight:600">${esc(p.name||p.email||'User')}</div>
+            <div style="color:var(--muted);font-size:.78rem">${p.channel||'Paystack'} · ${p.createdAt?new Date(p.createdAt.toMillis?.()??p.createdAt).toLocaleDateString('en-NG'):''}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:700">₦${((p.amount||0)/100).toLocaleString()}</div>
+            <span class="txn-status ${p.status||'pending'}">${p.status||'pending'}</span>
+          </div>
+        </div>
+      `).join(''):`<p style="color:var(--muted);font-size:.85rem;text-align:center;padding:12px">No payment records yet.</p>`}
+    </div>
+
+    <!-- ADMIN LISTINGS MANAGEMENT -->
+    <div style="margin-bottom:16px">
+      <div class="section-title" style="font-size:1rem">All Listings (Admin View)</div>
+      <div id="admin-all-listings">${renderAdminListings()}</div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="section-title" style="font-size:1rem">Post a Job (Admin)</div>
+        <div class="field"><label>Job Title</label><input type="text" id="admin-job-title" placeholder="Job title" maxlength="100"/></div>
+        <div class="field"><label>Job Type</label><select id="admin-job-type"><option value="professional">Professional</option><option value="non-professional">Non-Professional</option></select></div>
+        <div class="field"><label>LGA</label><select id="admin-job-lga" onchange="window._sriva&&window._sriva.updateTowns('admin-job-lga','admin-job-town','admin-job-other-wrap')"><option value="">Select LGA…</option></select></div>
+        <div class="field"><label>Town</label><select id="admin-job-town" onchange="window._sriva&&window._sriva.toggleOther('admin-job-town','admin-job-other-wrap')"><option>Select LGA first…</option></select></div>
+        <div class="field" id="admin-job-other-wrap" style="display:none"><label>Specify</label><input type="text" id="admin-job-other" maxlength="80"/></div>
+        <div class="field"><label>Description</label><textarea id="admin-job-desc" maxlength="2000" placeholder="Job description…"></textarea></div>
+        <div class="field"><label>Contact Type</label><select id="admin-job-ctype" onchange="window._sriva&&window._sriva.toggleContact('admin-job-ctype','admin-job-cval','admin-job-clabel')"><option value="email">Email</option><option value="phone">Phone</option><option value="social">Social</option></select></div>
+        <div class="field"><label id="admin-job-clabel">Email</label><input type="text" id="admin-job-cval" maxlength="100"/></div>
+        <div class="field"><label>Slots</label>
+          <select id="admin-job-slots"><option value="unlimited">Unlimited</option><option value="1">1</option><option value="many">Multiple</option></select>
+        </div>
+        <div class="err" id="admin-job-err"></div>
+        <button class="btn btn-blue" onclick="window._sriva&&window._sriva.adminPostJob()">Post Job</button>
+      </div>
+      <div>
+        <div class="section-title" style="font-size:1rem">Add Seeker (Admin)</div>
+        <div class="field"><label>Seeker Name</label><input type="text" id="admin-seek-name" placeholder="Display name" maxlength="50"/></div>
+        <div class="field"><label>Job Title</label><input type="text" id="admin-seek-title" placeholder="e.g. Driver, Accountant" maxlength="80"/></div>
+        <div class="field"><label>Job Type</label><select id="admin-seek-type"><option value="professional">Professional</option><option value="non-professional">Non-Professional</option><option value="any">Any</option></select></div>
+        <div class="field"><label>LGA</label><select id="admin-seek-lga" onchange="window._sriva&&window._sriva.updateTowns('admin-seek-lga','admin-seek-town','admin-seek-other-wrap')"><option value="">Select LGA…</option></select></div>
+        <div class="field"><label>Town</label><select id="admin-seek-town" onchange="window._sriva&&window._sriva.toggleOther('admin-seek-town','admin-seek-other-wrap')"><option>Select LGA first…</option></select></div>
+        <div class="field" id="admin-seek-other-wrap" style="display:none"><label>Specify</label><input type="text" id="admin-seek-other" maxlength="80"/></div>
+        <div class="field"><label>Bio / Skills</label><textarea id="admin-seek-bio" maxlength="2000" placeholder="Skills and experience…"></textarea></div>
+        <div class="field"><label>Contact Type</label><select id="admin-seek-ctype" onchange="window._sriva&&window._sriva.toggleContact('admin-seek-ctype','admin-seek-cval','admin-seek-clabel')"><option value="email">Email</option><option value="phone">Phone</option><option value="social">Social</option></select></div>
+        <div class="field"><label id="admin-seek-clabel">Email</label><input type="text" id="admin-seek-cval" maxlength="100"/></div>
+        <div class="err" id="admin-seek-err"></div>
+        <button class="btn btn-blue" onclick="window._sriva&&window._sriva.adminPostSeeker()">Add Seeker</button>
+      </div>
+    </div>
+  </div>`;
+
+  ['admin-job-lga','admin-seek-lga'].forEach(id=>{
+    const el=gi(id);if(!el)return;
+    el.innerHTML='<option value="">Select LGA…</option>';
+    LGA_LIST.forEach(lga=>el.innerHTML+=`<option value="${lga}">${lga}</option>`);
+  });
+}
+
+function renderAdminListings(){
+  if(!allListings.length) return '<p style="color:var(--muted);font-size:.85rem">No listings yet.</p>';
+  return allListings.slice(0,20).map(item=>{
+    const isJob=item._col==='jobs';
+    return `<div class="card" style="margin-bottom:8px">
+      <div class="card-top">
+        <div>
+          <span style="font-size:.9rem;font-weight:700;color:var(--dark)">${isJob?esc(item.title):esc(item.username||'Seeker')}</span>
+          <span class="badge ${isJob&&item.type==='professional'?'pro':!isJob?'seeker':''}" style="margin-left:6px">${isJob?(item.type==='professional'?'Pro':'Non-Pro'):'Seeker'}</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${isJob
+            ?`<button class="btn btn-gold btn-sm" onclick="window._sriva&&window._sriva.markFilled('${esc(item.id)}')">Mark Filled</button>`
+            :`<button class="btn btn-green btn-sm" onclick="window._sriva&&window._sriva.markGotten('${esc(item.id)}')">Mark Gotten</button>`}
+          <button class="btn btn-red btn-sm" onclick="window._sriva&&window._sriva.adminDeleteListing('${esc(item.id)}','${item._col}')">Delete</button>
+        </div>
+      </div>
+      <div style="font-size:.78rem;color:var(--muted);margin-top:4px">📍 ${esc(item.location||'')} · ${timeAgo(item.postedAt)} · 👍 ${(item.likes||[]).length}</div>
+    </div>`;
+  }).join('');
+}
+
+async function initiateWithdrawal(){
+  const amount=prompt('Enter amount to withdraw (in Naira, e.g. 5000):');
+  if(!amount||isNaN(amount)||Number(amount)<=0){toast('Invalid amount.');return;}
+  const method=prompt('Withdrawal method (bank/paystack):')?.toLowerCase();
+  if(!method||!['bank','paystack'].includes(method)){toast('Enter "bank" or "paystack".');return;}
+  try{
+    const id='w'+Date.now();
+    await setDoc(doc(db,'withdrawals',id),{id,amount:Number(amount)*100,method,requestedBy:currentUser.uid,createdAt:serverTimestamp(),status:'pending'});
+    toast(`Withdrawal request of ₦${Number(amount).toLocaleString()} submitted ✅`);
+    await renderAdmin(gi('admin-section'));
+  }catch(e){toast('Error submitting withdrawal request.');}
+}
+
+async function adminPostJob(){
+  hideEl('admin-job-err');
+  const title=(gi('admin-job-title')?.value.trim())||'';
+  const type=(gi('admin-job-type')?.value)||'professional';
+  const location=getLocation('admin-job-lga','admin-job-town','admin-job-other');
+  const desc=(gi('admin-job-desc')?.value.trim())||'';
+  const ctype=(gi('admin-job-ctype')?.value)||'email';
+  const cval=(gi('admin-job-cval')?.value.trim())||'';
+  const slots=(gi('admin-job-slots')?.value)||'unlimited';
+  if(!title||!desc||!cval||!location){showEl('admin-job-err','Fill all fields.');return;}
+  try {
+    const id='j'+Date.now();
+    await setDoc(doc(db,'jobs',id),{id,title,type,location,desc,contactType:ctype,contactVal:cval,slots,poster:currentUser.uid,postedAt:serverTimestamp(),likes:[],filled:false,adminPosted:true});
+    toast('Job posted by admin ✅');await loadListings();renderAccount();
+  } catch(e){showEl('admin-job-err','Error posting.');console.error(e);}
+}
+
+async function adminPostSeeker(){
+  hideEl('admin-seek-err');
+  const name=(gi('admin-seek-name')?.value.trim())||'';
+  const seekTitle=(gi('admin-seek-title')?.value.trim())||'';
+  const type=(gi('admin-seek-type')?.value)||'any';
+  const location=getLocation('admin-seek-lga','admin-seek-town','admin-seek-other');
+  const bio=(gi('admin-seek-bio')?.value.trim())||'';
+  const ctype=(gi('admin-seek-ctype')?.value)||'email';
+  const cval=(gi('admin-seek-cval')?.value.trim())||'';
+  if(!name||!bio||!cval||!location){showEl('admin-seek-err','Fill all fields.');return;}
+  try {
+    const id='s'+Date.now();
+    await setDoc(doc(db,'seekers',id),{id,type,seekTitle,location,bio,contactType:ctype,contactVal:cval,poster:currentUser.uid,username:name,postedAt:serverTimestamp(),likes:[],filled:false,adminPosted:true});
+    toast('Seeker added by admin ✅');await loadListings();renderAccount();
+  } catch(e){showEl('admin-seek-err','Error adding.');console.error(e);}
+}
+
+// ── MODAL ────────────────────────────────────────────────────────────────
+function openListing(id){
+  const item=allListings.find(x=>x.id===id);if(!item)return;
+  const isJob=item._col==='jobs';
+  const icons={email:'📧',phone:'📞',social:'📲'};
+  const labels={email:'Email',phone:'Phone',social:'Social Media'};
+  gi('modal-badge').innerHTML=isJob
+    ?`<span class="badge ${item.type==='professional'?'pro':''}">${item.type==='professional'?'Professional':'Non-Professional'}</span>`
+    :`<span class="badge seeker">Job Seeker</span>`;
+  const titleText=isJob?item.title:`${item.username||'Seeker'}${item.seekTitle?` — ${item.seekTitle}`:''}`;
+  gi('modal-title').textContent=titleText+' — Looking for Work'.replace(' — Looking for Work','');
+  gi('modal-title').textContent=isJob?item.title:`${item.username||'Seeker'}${item.seekTitle?` — ${item.seekTitle}`:' — Looking for Work'}`;
+  gi('modal-meta').textContent=`📍 ${item.location||''}  ·  ${timeAgo(item.postedAt)}  ·  ${getDays(item.postedAt)} day${getDays(item.postedAt)!==1?'s':''} active`;
+  gi('modal-desc').textContent=isJob?(item.desc||''):(item.bio||'');
+
+  // Contact — hidden if not logged in
+  const contactBox=gi('modal-contact-box');
+  const contactDiv=gi('modal-contact');
+  if(currentUser){
+    contactBox.classList.remove('hidden-contact');
+    contactBox.style.display='';
+    contactDiv.innerHTML=`<div class="contact-item"><span>${icons[item.contactType]||'📧'}</span><span><strong>${labels[item.contactType]||'Contact'}:</strong> ${esc(item.contactVal)}</span></div>`;
+  } else {
+    contactBox.classList.add('hidden-contact');
+    contactDiv.innerHTML=`<p style="color:var(--muted);font-size:.88rem">🔒 <a onclick="window._sriva&&window._sriva.showPage('login')" style="color:var(--green);cursor:pointer;font-weight:600">Log in</a> or <a onclick="window._sriva&&window._sriva.showPage('signup')" style="color:var(--green);cursor:pointer;font-weight:600">sign up</a> to view contact details.</p>`;
+  }
+
+  // Like row
+  renderModalLikeRow(item);
+
+  // Actions
+  const actions=gi('modal-actions');
+  actions.innerHTML='';
+  const isAdmin=currentProfile?.email===ADMIN_EMAIL;
+  const isOwner=currentUser&&item.poster===currentUser.uid;
+
+  if(isOwner||isAdmin){
+    if(isJob){
+      const fb=document.createElement('button');
+      fb.className='btn btn-red btn-sm';
+      fb.textContent='Mark as Filled';
+      fb.onclick=()=>markFilled(id);
+      actions.appendChild(fb);
+    } else {
+      const gb=document.createElement('button');
+      gb.className='btn btn-green btn-sm';
+      gb.textContent='Job Gotten ✓';
+      gb.onclick=()=>markGotten(id);
+      actions.appendChild(gb);
+    }
+  }
+  if(isAdmin){
+    const db2=document.createElement('button');
+    db2.className='btn btn-red btn-sm';
+    db2.textContent='🗑 Delete Listing';
+    db2.onclick=()=>adminDeleteListing(id,item._col);
+    actions.appendChild(db2);
+  }
+
+  gi('modal-overlay').classList.add('open');
+}
+
+function closeModal(e){if(!e||e.target===gi('modal-overlay'))gi('modal-overlay').classList.remove('open');}
+
+function showBanner(title){
+  gi('banner-text').innerHTML=`🎉 Someone just connected for <strong>${esc(String(title))}</strong>!`;
+  gi('job-banner').style.display='block';
+  setTimeout(closeBanner,8000);
+}
+function closeBanner(){gi('job-banner').style.display='none';}
+function showPopup(msg){gi('popup-msg').textContent=msg;gi('popup-overlay').classList.add('open');}
+function closePopup(){gi('popup-overlay').classList.remove('open');}
+
+function updateNav(){
+  const isAdmin=currentUser&&currentProfile?.email===ADMIN_EMAIL;
+  gi('nav-links').innerHTML=currentUser
+    ?`<button onclick="window._sriva&&window._sriva.showPage('home')">Jobs</button><button onclick="window._sriva&&window._sriva.showPage('account')" class="btn-primary${isAdmin?' btn-admin':''}">My Account</button>`
+    :`<button onclick="window._sriva&&window._sriva.showPage('home')">Jobs</button><button onclick="window._sriva&&window._sriva.showPage('login')">Login</button><button onclick="window._sriva&&window._sriva.showPage('signup')" class="btn-primary">Sign Up</button>`;
+}
+
+async function showPage(p){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  gi('page-'+p).classList.add('active');
+  if(p==='account'){if(!currentUser){showPage('login');return;}await loadListings();renderAccount();}
+  if(p==='home') loadListings();
+  updateNav();window.scrollTo(0,0);
+}
+
+function filterTab(tab,el){
+  currentTab=tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');renderListings();
+}
+
+// ── EXPOSE ALL FUNCTIONS VIA window._sriva ───────────────────────────────
+window._sriva = {
+  showPage, filterTab, renderListings, doSignup, doLogin, doForgotPassword, doLogout,
+  confirmDelete, cancelReauth, confirmReauth, adminDeleteListing,
+  postJob, postSeeker, markFilled, markGotten,
+  openListing, closeModal, closeBanner, closePopup,
+  updateTowns, toggleOther, toggleContact, adminPostJob, adminPostSeeker,
+  toggleLike, showLikers, viewLikerProfile, initiateWithdrawal, resendVerification
+};
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+populateLGAs();
+</script>
+</body>
+</html>
