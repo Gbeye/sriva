@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sriva – Jobs & Services in Rivers State</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --green:#1a7c4f;--green-light:#e8f5ee;--green-mid:#2da66a;
+  --red:#c0392b;--gold:#e8a020;--dark:#0d1f17;--grey:#f4f6f4;
+  --border:#d4e4d9;--text:#1a2e22;--muted:#6b8c74;--white:#fff;
+  --admin:#1a3a6b;--blue:#2d5be0;--purple:#6b3fa0;--orange:#c45c0a;--teal:#00796b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--grey);color:var(--text);min-height:100vh}
+h1,h2,h3,.brand{font-family:'Sora',sans-serif}
+nav{background:var(--dark);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #0006}
+.brand{color:var(--white);font-size:1.5rem;font-weight:800;letter-spacing:-.5px;cursor:pointer;flex-shrink:0}
+.brand span{color:var(--green-mid)}
+.nav-links{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.nav-links button{background:none;border:none;color:#aac9b5;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;padding:6px 10px;border-radius:6px;transition:.2s}
+.nav-links button:hover{color:#fff;background:#1d3628}
+.btn-primary{background:var(--green-mid)!important;color:#fff!important;font-weight:600}
+.btn-admin{background:var(--admin)!important;color:#fff!important;font-weight:600}
+.section-nav{background:#fff;border-bottom:2px solid var(--border);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:60px;z-index:90}
+.section-nav::-webkit-scrollbar{display:none}
+.snav-btn{flex:0 0 auto;padding:13px 16px;border:none;background:none;font-family:'Sora',sans-serif;font-weight:600;font-size:.82rem;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:.2s;white-space:nowrap}
+.snav-btn:hover{color:var(--dark)}
+.snav-btn.active{color:var(--green);border-bottom-color:var(--green-mid)}
+#job-banner{display:none;background:var(--green);color:#fff;text-align:center;padding:10px 20px;font-size:.9rem;position:relative;animation:slideDown .4s ease}
+@keyframes slideDown{from{transform:translateY(-40px);opacity:0}to{transform:translateY(0);opacity:1}}
+#banner-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1.1rem;background:none;border:none;color:#fff}
+.page{display:none;max-width:960px;margin:0 auto;padding:24px 16px}
+.page.active{display:block}
+.section-hero{border-radius:16px;padding:28px 24px;margin-bottom:22px;color:#fff}
+.section-hero.green{background:linear-gradient(135deg,var(--dark) 0%,#1a3a28 100%)}
+.section-hero.purple{background:linear-gradient(135deg,#2d0a4e 0%,#6b3fa0 100%)}
+.section-hero.orange{background:linear-gradient(135deg,#3d1a00 0%,#c45c0a 100%)}
+.section-hero.teal{background:linear-gradient(135deg,#003d2e 0%,#00796b 100%)}
+.section-hero h2{font-size:1.5rem;font-weight:800;margin-bottom:6px}
+.section-hero p{font-size:.9rem;opacity:.85;margin-bottom:16px}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px;transition:.2s}
+.card:hover{border-color:var(--green-mid);box-shadow:0 4px 18px #1a7c4f18}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;cursor:pointer}
+.card h3{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:4px}
+.card h3:hover{color:var(--green)}
+.badge{display:inline-block;font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--green-light);color:var(--green);margin-right:3px}
+.badge.pro{background:#fff8e6;color:var(--gold)}
+.badge.seeker{background:#e8f0ff;color:var(--blue)}
+.badge.filled{background:#fde8e8;color:var(--red)}
+.badge.gig{background:#f3e8ff;color:var(--purple)}
+.badge.biz{background:#fff0e0;color:var(--orange)}
+.badge.tutor{background:#e0f7fa;color:var(--teal)}
+.badge.verified{background:var(--green-light);color:var(--green)}
+.badge.featured{background:#fff8e6;color:var(--gold)}
+.card-meta{font-size:.8rem;color:var(--muted);margin-top:6px}
+.card-meta span{margin-right:12px}
+.like-row{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);flex-wrap:wrap}
+.like-btn{display:flex;align-items:center;gap:5px;background:none;border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:.83rem;color:var(--muted);transition:.2s;font-family:'DM Sans',sans-serif}
+.like-btn:hover{border-color:var(--green-mid);color:var(--green)}
+.like-btn.liked{background:var(--green-light);border-color:var(--green-mid);color:var(--green);font-weight:600}
+.like-count{font-weight:700}
+.who-liked{font-size:.76rem;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.who-liked:hover{color:var(--green)}
+.chat-btn{display:flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:.83rem;color:var(--muted);transition:.2s;font-family:'DM Sans',sans-serif;margin-left:auto}
+.chat-btn:hover{border-color:var(--blue);color:var(--blue)}
+.int-btn{display:flex;align-items:center;gap:4px;background:none;border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:.83rem;color:var(--muted);transition:.2s;font-family:'DM Sans',sans-serif}
+.int-btn:hover{border-color:var(--purple);color:var(--purple)}
+.int-btn.active{background:#f3e8ff;border-color:var(--purple);color:var(--purple);font-weight:600}
+.form-box{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:28px;max-width:520px;margin:0 auto}
+.form-box h2{font-size:1.4rem;margin-bottom:6px;color:var(--dark)}
+.form-box p.sub{font-size:.87rem;color:var(--muted);margin-bottom:20px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.field input,.field select,.field textarea{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.93rem;color:var(--text);background:var(--grey);outline:none;transition:.2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green-mid);background:#fff}
+.field textarea{min-height:80px;resize:vertical}
+.btn{display:inline-block;padding:10px 22px;border-radius:8px;font-family:'Sora',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;border:none;transition:.2s}
+.btn-green{background:var(--green-mid);color:#fff}.btn-green:hover{background:#259159}
+.btn-outline{background:transparent;color:var(--green);border:1.5px solid var(--green-mid)}.btn-outline:hover{background:var(--green-light)}
+.btn-red{background:var(--red);color:#fff}
+.btn-blue{background:var(--admin);color:#fff}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-purple{background:var(--purple);color:#fff}
+.btn-full{width:100%}
+.btn-sm{padding:6px 13px;font-size:.78rem}
+.form-footer{text-align:center;margin-top:14px;font-size:.85rem;color:var(--muted)}
+.form-footer a{color:var(--green);cursor:pointer;font-weight:600}
+.err{color:var(--red);font-size:.8rem;margin-top:8px;display:none;padding:8px 12px;background:#fdf0f0;border-radius:6px}
+.info-msg{color:var(--green);font-size:.8rem;margin-top:8px;display:none;padding:8px 12px;background:var(--green-light);border-radius:6px;border:1px solid var(--border)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.filters input{flex:1;min-width:150px;padding:9px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.88rem;background:#fff;outline:none}
+.filters input:focus{border-color:var(--green-mid)}
+.filters select{padding:9px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.88rem;background:#fff;outline:none;cursor:pointer}
+.tabs{display:flex;gap:4px;margin-bottom:18px;background:#e2ede7;border-radius:10px;padding:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:8px 13px;border-radius:7px;cursor:pointer;font-family:'Sora',sans-serif;font-weight:600;font-size:.8rem;color:var(--muted);transition:.2s;white-space:nowrap}
+.tab.active{background:#fff;color:var(--green);box-shadow:0 2px 8px #0001}
+#modal-overlay{display:none;position:fixed;inset:0;background:#0007;z-index:200;align-items:center;justify-content:center;padding:16px}
+#modal-overlay.open{display:flex}
+#modal{background:#fff;border-radius:18px;max-width:560px;width:100%;padding:28px;position:relative;max-height:90vh;overflow-y:auto}
+#modal-close{position:absolute;top:14px;right:16px;font-size:1.3rem;cursor:pointer;color:var(--muted);background:none;border:none}
+.contact-box{background:var(--green-light);border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-top:16px}
+.contact-box.hidden-contact{background:#f4f6f4;border-style:dashed}
+.contact-box h4{font-size:.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.contact-item{display:flex;gap:8px;align-items:center;font-size:.9rem;margin-bottom:4px}
+.account-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+@media(max-width:520px){.account-grid{grid-template-columns:1fr 1fr}}
+.stat-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.stat-card .num{font-size:1.8rem;font-weight:800;color:var(--green);font-family:'Sora',sans-serif}
+.stat-card .lbl{font-size:.74rem;color:var(--muted);margin-top:2px}
+#popup-overlay{display:none;position:fixed;inset:0;background:#0008;z-index:300;align-items:center;justify-content:center}
+#popup-overlay.open{display:flex}
+#popup{background:#fff;border-radius:20px;padding:36px 28px;max-width:360px;width:90%;text-align:center}
+#popup h2{font-size:1.4rem;margin-bottom:8px}
+#popup p{color:var(--muted);margin-bottom:20px;font-size:.92rem}
+.confetti{font-size:2.2rem;margin-bottom:8px}
+#notif-bar{display:none;position:fixed;bottom:24px;right:20px;background:var(--dark);color:#fff;padding:13px 18px;border-radius:12px;font-size:.86rem;max-width:270px;z-index:500;box-shadow:0 4px 20px #0004}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-icon{font-size:2.2rem;margin-bottom:10px}
+.section-title{font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.count-chip{background:var(--green-light);color:var(--green);font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:12px}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--dark);color:#fff;padding:11px 20px;border-radius:10px;font-size:.88rem;opacity:0;transition:.3s;z-index:999;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.loading{text-align:center;padding:40px;color:var(--muted)}
+.admin-box{background:#eef2ff;border:1.5px solid #c7d2fe;border-radius:14px;padding:18px;margin-bottom:18px}
+.admin-box h3{color:var(--admin);margin-bottom:12px;font-size:.95rem}
+.admin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+@media(max-width:600px){.admin-grid{grid-template-columns:1fr 1fr}}
+.admin-stat{background:#fff;border:1.5px solid #c7d2fe;border-radius:10px;padding:12px;text-align:center}
+.admin-stat .n{font-size:1.4rem;font-weight:800;color:var(--admin);font-family:'Sora',sans-serif}
+.admin-stat .l{font-size:.7rem;color:#6b7db3;margin-top:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+.pay-box{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px}
+.pay-box h4{font-size:.92rem;font-weight:700;color:var(--dark);margin-bottom:10px}
+.pay-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+@media(max-width:500px){.pay-stat-grid{grid-template-columns:1fr 1fr}}
+.pay-stat{background:#f8f9fa;border-radius:8px;padding:10px;text-align:center}
+.pay-stat .pn{font-size:1.2rem;font-weight:800;color:var(--admin);font-family:'Sora',sans-serif}
+.pay-stat .pl{font-size:.7rem;color:var(--muted);margin-top:2px}
+.txn-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:.83rem}
+.txn-row:last-child{border-bottom:none}
+.txn-status{padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700}
+.txn-status.success{background:var(--green-light);color:var(--green)}
+.txn-status.pending{background:#fff8e6;color:var(--gold)}
+.txn-status.failed{background:#fde8e8;color:var(--red)}
+#likers-overlay{display:none;position:fixed;inset:0;background:#0007;z-index:250;align-items:center;justify-content:center;padding:16px}
+#likers-overlay.open{display:flex}
+#likers-modal{background:#fff;border-radius:16px;max-width:400px;width:100%;padding:26px;position:relative;max-height:80vh;overflow-y:auto}
+.liker-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.liker-row:last-child{border-bottom:none}
+.liker-row:hover .liker-name{color:var(--green)}
+.liker-avatar{width:36px;height:36px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--green);font-size:.95rem;flex-shrink:0}
+.liker-name{font-weight:600;font-size:.9rem;color:var(--dark)}
+.liker-role{font-size:.76rem;color:var(--muted)}
+#liker-profile-overlay{display:none;position:fixed;inset:0;background:#0007;z-index:260;align-items:center;justify-content:center;padding:16px}
+#liker-profile-overlay.open{display:flex}
+#liker-profile-modal{background:#fff;border-radius:18px;max-width:460px;width:100%;padding:28px;position:relative;max-height:85vh;overflow-y:auto}
+.verify-banner{background:#fff8e6;border:1.5px solid #e8d090;border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:.86rem;color:#7a5c00;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.verify-banner button{margin-left:auto;background:var(--gold);color:#fff;border:none;border-radius:6px;padding:5px 11px;cursor:pointer;font-size:.8rem;font-family:'DM Sans',sans-serif;font-weight:600}
+#reauth-overlay{display:none;position:fixed;inset:0;background:#0008;z-index:400;align-items:center;justify-content:center;padding:16px}
+#reauth-overlay.open{display:flex}
+#reauth-modal{background:#fff;border-radius:18px;max-width:360px;width:100%;padding:28px;text-align:center}
+/* CHAT */
+#chat-overlay{display:none;position:fixed;inset:0;background:#0007;z-index:280;align-items:flex-end;justify-content:center}
+#chat-overlay.open{display:flex}
+#chat-box{background:#fff;border-radius:20px 20px 0 0;max-width:540px;width:100%;height:82vh;display:flex;flex-direction:column;overflow:hidden}
+.chat-header{background:var(--dark);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ch-name{font-weight:700;font-size:.95rem;flex:1}
+.ch-sub{font-size:.74rem;color:#aac9b5}
+#chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#f8faf8}
+.msg{max-width:75%;padding:10px 14px;border-radius:14px;font-size:.88rem;line-height:1.5;word-break:break-word}
+.msg.mine{background:var(--green-mid);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg.theirs{background:#fff;border:1.5px solid var(--border);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px}
+.msg-time{font-size:.68rem;opacity:.7;margin-top:3px}
+.msg.mine .msg-time{text-align:right}
+.chat-input-row{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);background:#fff;flex-shrink:0}
+.chat-input-row input{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:22px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;background:var(--grey)}
+.chat-input-row input:focus{border-color:var(--green-mid);background:#fff}
+.chat-input-row button{background:var(--green-mid);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.1rem;cursor:pointer;flex-shrink:0}
+.inbox-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.inbox-row:hover{background:#f8faf8;margin:0 -4px;padding-left:4px;padding-right:4px;border-radius:8px}
+.inbox-avatar{width:42px;height:42px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--green);font-size:1rem;flex-shrink:0}
+.inbox-name{font-weight:600;font-size:.9rem;color:var(--dark)}
+.inbox-preview{font-size:.78rem;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
+.inbox-time{font-size:.72rem;color:var(--muted);margin-left:auto;flex-shrink:0}
+footer{text-align:center;padding:28px 16px;color:var(--muted);font-size:.78rem;border-top:1px solid var(--border);margin-top:40px}
+</style>
+</head>
+<body>
+
+<div id="job-banner">
+  <span id="banner-text">Someone just got connected!</span>
+  <button id="banner-close" onclick="window._s&&window._s.closeBanner()">x</button>
+</div>
+<div id="notif-bar"></div>
+
+<nav>
+  <div class="brand" onclick="window._s&&window._s.showSection('jobs')">Sri<span>va</span></div>
+  <div class="nav-links" id="nav-links"></div>
+</nav>
+
+<div class="section-nav">
+  <button class="snav-btn active" data-sec="jobs" onclick="window._s&&window._s.showSection('jobs')">Jobs</button>
+  <button class="snav-btn" data-sec="gigs" onclick="window._s&&window._s.showSection('gigs')">Gigs</button>
+  <button class="snav-btn" data-sec="businesses" onclick="window._s&&window._s.showSection('businesses')">Businesses</button>
+  <button class="snav-btn" data-sec="tutors" onclick="window._s&&window._s.showSection('tutors')">Tutor</button>
+  <button class="snav-btn" data-sec="messages" onclick="window._s&&window._s.showSection('messages')">Messages</button>
+</div>
+
+<!-- LOGIN -->
+<div class="page" id="page-login">
+  <div class="form-box">
+    <h2>Welcome back</h2>
+    <p class="sub">Log in to your Sriva account</p>
+    <div class="field"><label>Email</label><input type="email" id="login-email" placeholder="Your email"/></div>
+    <div class="field"><label>Password</label><input type="password" id="login-pass" placeholder="Password"/></div>
+    <div class="err" id="login-err"></div>
+    <div style="text-align:right;margin-top:-6px;margin-bottom:12px">
+      <a onclick="window._s&&window._s.forgotPw()" style="font-size:.82rem;color:var(--green);cursor:pointer;font-weight:600">Forgot password?</a>
+    </div>
+    <button class="btn btn-green btn-full" onclick="window._s&&window._s.doLogin()">Log In</button>
+    <div class="form-footer">No account? <a onclick="window._s&&window._s.showPage('signup')">Sign up free</a></div>
+  </div>
+</div>
+
+<!-- SIGNUP -->
+<div class="page" id="page-signup">
+  <div class="form-box">
+    <h2>Create Account</h2>
+    <p class="sub">Join Sriva - completely free</p>
+    <div class="field"><label>Username</label><input type="text" id="su-user" placeholder="Display name (3-30 chars)"/></div>
+    <div class="field"><label>Email</label><input type="email" id="su-email" placeholder="Your email"/></div>
+    <div class="field"><label>Password</label><input type="password" id="su-pass" placeholder="Min 6 characters"/></div>
+    <div class="field"><label>Confirm Password</label><input type="password" id="su-pass2" placeholder="Repeat password"/></div>
+    <div class="err" id="su-err"></div>
+    <div class="info-msg" id="su-info"></div>
+    <button class="btn btn-green btn-full" onclick="window._s&&window._s.doSignup()">Create Account</button>
+    <div class="form-footer">Already have an account? <a onclick="window._s&&window._s.showPage('login')">Log in</a></div>
+  </div>
+</div>
+
+<!-- ACCOUNT -->
+<div class="page" id="page-account">
+  <h2 style="margin-bottom:16px" id="dash-title">My Account</h2>
+  <div id="verify-wrap"></div>
+  <div id="admin-section" style="display:none"></div>
+  <div class="account-grid">
+    <div class="stat-card"><div class="num" id="stat-listings">0</div><div class="lbl">My Listings</div></div>
+    <div class="stat-card"><div class="num" id="stat-days">0</div><div class="lbl">Days Active</div></div>
+    <div class="stat-card"><div class="num" id="stat-msgs">0</div><div class="lbl">Messages</div></div>
+  </div>
+
+  <!-- WHAT WOULD YOU LIKE TO DO -->
+  <div id="user-actions" style="display:none">
+    <div class="section-title">What would you like to do?</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px">
+      <button class="btn btn-green btn-sm" onclick="window._s&&window._s.toggleForm('recruiter-section')">&#128188; Post a Job</button>
+      <button class="btn btn-green btn-sm" onclick="window._s&&window._s.toggleForm('seeker-section')">&#128100; Looking for Work</button>
+      <button class="btn btn-purple btn-sm" onclick="window._s&&window._s.toggleForm('provider-section')">&#9889; Offer a Service</button>
+      <button class="btn btn-gold btn-sm" onclick="window._s&&window._s.toggleForm('business-section')">&#127978; List a Business</button>
+      <button class="btn btn-teal btn-sm" onclick="window._s&&window._s.toggleForm('tutor-section')">&#128218; Become a Tutor</button>
+    </div>
+  </div>
+
+  <div id="recruiter-section" style="display:none">
+    <div class="section-title">Post a Job</div>
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px">
+      <div class="field"><label>Job Title</label><input type="text" id="job-title" placeholder="e.g. POS Attendant, Accountant" maxlength="100"/></div>
+      <div class="field"><label>Job Type</label><select id="job-type"><option value="professional">Professional</option><option value="non-professional">Non-Professional</option></select></div>
+      <div class="field"><label>LGA</label><select id="job-lga" onchange="window._s&&window._s.updT('job-lga','job-town','job-ow')"><option value="">Select LGA</option></select></div>
+      <div class="field"><label>Town</label><select id="job-town" onchange="window._s&&window._s.togO('job-town','job-ow')"><option value="">Select LGA first</option></select></div>
+      <div class="field" id="job-ow" style="display:none"><label>Specify Location</label><input type="text" id="job-other" maxlength="80"/></div>
+      <div class="field"><label>Description</label><textarea id="job-desc" placeholder="Describe the role, requirements, pay..." maxlength="2000"></textarea></div>
+      <div class="field"><label>Contact Method</label><select id="job-ctype" onchange="window._s&&window._s.togC('job-ctype','job-cval','job-clbl')"><option value="email">Email</option><option value="phone">Phone</option><option value="social">Social Media</option></select></div>
+      <div class="field"><label id="job-clbl">Email Address</label><input type="text" id="job-cval" maxlength="100"/></div>
+      <div class="field"><label>Openings</label><select id="job-slots"><option value="1">1 (removed when filled)</option><option value="many">Multiple</option></select></div>
+      <div class="err" id="post-err"></div>
+      <button class="btn btn-green" onclick="window._s&&window._s.postJob()">Post Job</button>
+    </div>
+  </div>
+
+  <div id="seeker-section" style="display:none">
+    <div class="section-title">My Seeker Profile</div>
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px">
+      <div class="field"><label>Job Title / Desired Role</label><input type="text" id="seek-title" placeholder="e.g. Accountant, Driver, POS Attendant" maxlength="80"/></div>
+      <div class="field"><label>Job Type</label><select id="seek-type"><option value="professional">Professional</option><option value="non-professional">Non-Professional</option><option value="any">Any</option></select></div>
+      <div class="field"><label>LGA</label><select id="seek-lga" onchange="window._s&&window._s.updT('seek-lga','seek-town','seek-ow')"><option value="">Select LGA</option></select></div>
+      <div class="field"><label>Town</label><select id="seek-town" onchange="window._s&&window._s.togO('seek-town','seek-ow')"><option value="">Select LGA first</option></select></div>
+      <div class="field" id="seek-ow" style="display:none"><label>Specify</label><input type="text" id="seek-other" maxlength="80"/></div>
+      <div class="field"><label>Skills / Bio</label><textarea id="seek-bio" placeholder="Describe your skills and experience..." maxlength="2000"></textarea></div>
+      <div class="field"><label>Contact Method</label><select id="seek-ctype" onchange="window._s&&window._s.togC('seek-ctype','seek-cval','seek-clbl')"><option value="email">Email</option><option value="phone">Phone</option><option value="social">Social Media</option></select></div>
+      <div class="field"><label id="seek-clbl">Email Address</label><input type="text" id="seek-cval" maxlength="100"/></div>
+      <div class="err" id="seek-err"></div>
+      <button class="btn btn-green" onclick="window._s&&window._s.postSeeker()">Save Profile</button>
+    </div>
+  </div>
+
+  <div id="provider-section" style="display:none">
+    <div class="section-title">Offer a Service / Post a Gig</div>
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px">
+      <div class="field"><label>Service Title</label><input type="text" id="gig-title" placeholder="e.g. Electrician, Photographer, Cake Baker" maxlength="100"/></div>
+      <div class="field"><label>Category</label>
+        <select id="gig-cat">
+          <option value="electrical">Electrical</option><option value="plumbing">Plumbing</option>
+          <option value="carpentry">Carpentry</option><option value="catering">Catering / Food</option>
+          <option value="fashion">Fashion / Tailoring</option><option value="photography">Photography / Video</option>
+          <option value="cleaning">Cleaning</option><option value="driving">Driving / Logistics</option>
+          <option value="tech">Tech / IT</option><option value="beauty">Beauty / Hair</option>
+          <option value="events">Events / Decoration</option><option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Description</label><textarea id="gig-desc" placeholder="What do you offer? Experience, availability..." maxlength="2000"></textarea></div>
+      <div class="field"><label>Price Range</label><input type="text" id="gig-price" placeholder="e.g. N5,000-N20,000 per job" maxlength="80"/></div>
+      <div class="field"><label>LGA</label><select id="gig-lga" onchange="window._s&&window._s.updT('gig-lga','gig-town','gig-ow')"><option value="">Select LGA</option></select></div>
+      <div class="field"><label>Town</label><select id="gig-town" onchange="window._s&&window._s.togO('gig-town','gig-ow')"><option>Select LGA first</option></select></div>
+      <div class="field" id="gig-ow" style="display:none"><label>Specify</label><input type="text" id="gig-other" maxlength="80"/></div>
+      <div class="field"><label>Contact Method</label><select id="gig-ctype" onchange="window._s&&window._s.togC('gig-ctype','gig-cval','gig-clbl')"><option value="phone">Phone</option><option value="email">Email</option><option value="social">Social Media</option></select></div>
+      <div class="field"><label id="gig-clbl">Phone Number</label><input type="text" id="gig-cval" maxlength="100"/></div>
+      <div class="err" id="gig-err"></div>
+      <button class="btn btn-purple" onclick="window._s&&window._s.postGig()">Post Service</button>
+    </div>
+  </div>
+
+  <div id="business-section" style="display:none">
+    <div class="section-title">List Your Business</div>
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px">
+      <div class="field"><label>Business Name</label><input type="text" id="biz-name" maxlength="100"/></div>
+      <div class="field"><label>Category</label>
+        <select id="biz-cat">
+          <option value="retail">Retail / Shop</option><option value="food">Food and Restaurants</option>
+          <option value="health">Health and Pharmacy</option><option value="education">Education</option>
+          <option value="tech">Tech and IT</option><option value="fashion">Fashion and Beauty</option>
+          <option value="logistics">Logistics and Transport</option><option value="construction">Construction</option>
+          <option value="finance">Finance and Legal</option><option value="hospitality">Hospitality and Events</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Description</label><textarea id="biz-desc" placeholder="What does your business offer?" maxlength="2000"></textarea></div>
+      <div class="field"><label>Operating Hours</label><input type="text" id="biz-hours" placeholder="e.g. Mon-Sat 8am-6pm" maxlength="100"/></div>
+      <div class="field"><label>Website / Social (optional)</label><input type="text" id="biz-web" placeholder="e.g. instagram.com/yourbiz" maxlength="150"/></div>
+      <div class="field"><label>LGA</label><select id="biz-lga" onchange="window._s&&window._s.updT('biz-lga','biz-town','biz-ow')"><option value="">Select LGA</option></select></div>
+      <div class="field"><label>Town</label><select id="biz-town" onchange="window._s&&window._s.togO('biz-town','biz-ow')"><option>Select LGA first</option></select></div>
+      <div class="field" id="biz-ow" style="display:none"><label>Specify</label><input type="text" id="biz-other" maxlength="80"/></div>
+      <div class="field"><label>Contact Method</label><select id="biz-ctype" onchange="window._s&&window._s.togC('biz-ctype','biz-cval','biz-clbl')"><option value="phone">Phone</option><option value="email">Email</option><option value="social">Social Media</option></select></div>
+      <div class="field"><label id="biz-clbl">Phone Number</label><input type="text" id="biz-cval" maxlength="100"/></div>
+      <div class="err" id="biz-err"></div>
+      <button class="btn btn-gold" onclick="window._s&&window._s.postBusiness()">List Business</button>
+    </div>
+  </div>
+
+  <div id="tutor-section" style="display:none">
+    <div class="section-title">Create Tutor Profile</div>
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px">
+      <div class="field"><label>What You Teach</label><input type="text" id="tutor-subject" placeholder="e.g. Mathematics, Driving, Excel" maxlength="100"/></div>
+      <div class="field"><label>Category</label>
+        <select id="tutor-cat">
+          <option value="academic">Academic (School/University)</option>
+          <option value="vocational">Vocational / Trade Skills</option>
+          <option value="digital">Digital / Tech Skills</option>
+          <option value="professional">Professional Development</option>
+          <option value="language">Language</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="field"><label>About You / Qualifications</label><textarea id="tutor-bio" placeholder="Your background, experience, teaching style..." maxlength="2000"></textarea></div>
+      <div class="field"><label>Fee Per Session</label><input type="text" id="tutor-fee" placeholder="e.g. N3,000/hour or N15,000/month" maxlength="80"/></div>
+      <div class="field"><label>Teaching Mode</label><select id="tutor-mode"><option value="in-person">In-Person Only</option><option value="online">Online Only</option><option value="both">Both</option></select></div>
+      <div class="field"><label>LGA</label><select id="tutor-lga" onchange="window._s&&window._s.updT('tutor-lga','tutor-town','tutor-ow')"><option value="">Select LGA</option></select></div>
+      <div class="field"><label>Town</label><select id="tutor-town" onchange="window._s&&window._s.togO('tutor-town','tutor-ow')"><option>Select LGA first</option></select></div>
+      <div class="field" id="tutor-ow" style="display:none"><label>Specify</label><input type="text" id="tutor-other" maxlength="80"/></div>
+      <div class="field"><label>Contact Method</label><select id="tutor-ctype" onchange="window._s&&window._s.togC('tutor-ctype','tutor-cval','tutor-clbl')"><option value="phone">Phone</option><option value="email">Email</option><option value="social">Social Media</option></select></div>
+      <div class="field"><label id="tutor-clbl">Phone Number</label><input type="text" id="tutor-cval" maxlength="100"/></div>
+      <div class="err" id="tutor-err"></div>
+      <button class="btn btn-teal" onclick="window._s&&window._s.postTutor()">Save Tutor Profile</button>
+    </div>
+  </div>
+
+  <div class="section-title">My Listings</div>
+  <div id="my-listings"></div>
+  <div style="margin-top:28px;padding-top:18px;border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn btn-outline" onclick="window._s&&window._s.doLogout()">Log Out</button>
+    <button class="btn btn-red" onclick="window._s&&window._s.confirmDel()">Delete Account</button>
+  </div>
+</div>
+
+<!-- JOBS PAGE -->
+<div class="page active" id="page-jobs">
+  <div class="section-hero green">
+    <h2>Jobs in Rivers State</h2>
+    <p>Connecting job seekers and recruiters across Rivers State. No CV needed.</p>
+    <div class="hero-btns">
+      <button class="btn btn-green" onclick="window._s&&window._s.goAccount()">Post a Job</button>
+      <button class="btn btn-outline" onclick="window._s&&window._s.goAccount()">I am Looking for Work</button>
+    </div>
+  </div>
+  <div class="tabs" id="jobs-tabs">
+    <div class="tab active" onclick="window._s&&window._s.jobTab('all',this)">All</div>
+    <div class="tab" onclick="window._s&&window._s.jobTab('job',this)">Job Openings</div>
+    <div class="tab" onclick="window._s&&window._s.jobTab('seeker',this)">Seekers</div>
+    <div class="tab" onclick="window._s&&window._s.jobTab('professional',this)">Professional</div>
+    <div class="tab" onclick="window._s&&window._s.jobTab('non-professional',this)">Non-Pro</div>
+  </div>
+  <div class="filters">
+    <input type="text" id="jobs-search" placeholder="Search jobs..." oninput="window._s&&window._s.renderJobs()"/>
+    <select id="jobs-area" onchange="window._s&&window._s.renderJobs()"><option value="">All Areas</option></select>
+  </div>
+  <div class="section-title">Listings <span class="count-chip" id="jobs-count">0</span></div>
+  <div id="jobs-list"><div class="loading">Loading...</div></div>
+</div>
+
+<!-- GIGS PAGE -->
+<div class="page" id="page-gigs">
+  <div class="section-hero purple">
+    <h2>Gigs and Services</h2>
+    <p>Find skilled people for one-off jobs or offer your own services to people in Rivers State.</p>
+    <div class="hero-btns">
+      <button class="btn btn-green" onclick="window._s&&window._s.goAccount()">Offer a Service</button>
+      <button class="btn btn-outline" onclick="window._s&&window._s.goAccount()">Post a Task</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="window._s&&window._s.gigTab('all',this)">All</div>
+    <div class="tab" onclick="window._s&&window._s.gigTab('electrical',this)">Electrical</div>
+    <div class="tab" onclick="window._s&&window._s.gigTab('catering',this)">Catering</div>
+    <div class="tab" onclick="window._s&&window._s.gigTab('fashion',this)">Fashion</div>
+    <div class="tab" onclick="window._s&&window._s.gigTab('tech',this)">Tech</div>
+    <div class="tab" onclick="window._s&&window._s.gigTab('beauty',this)">Beauty</div>
+    <div class="tab" onclick="window._s&&window._s.gigTab('events',this)">Events</div>
+    <div class="tab" onclick="window._s&&window._s.gigTab('other',this)">Other</div>
+  </div>
+  <div class="filters">
+    <input type="text" id="gigs-search" placeholder="Search services..." oninput="window._s&&window._s.renderGigs()"/>
+    <select id="gigs-area" onchange="window._s&&window._s.renderGigs()"><option value="">All Areas</option></select>
+  </div>
+  <div class="section-title">Services <span class="count-chip" id="gigs-count">0</span></div>
+  <div id="gigs-list"><div class="loading">Loading...</div></div>
+</div>
+
+<!-- BUSINESSES PAGE -->
+<div class="page" id="page-businesses">
+  <div class="section-hero orange">
+    <h2>Business Directory</h2>
+    <p>Discover local businesses in Rivers State. From pharmacies to tech companies.</p>
+    <div class="hero-btns">
+      <button class="btn btn-gold" onclick="window._s&&window._s.goAccount()">List Your Business</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="window._s&&window._s.bizTab('all',this)">All</div>
+    <div class="tab" onclick="window._s&&window._s.bizTab('food',this)">Food</div>
+    <div class="tab" onclick="window._s&&window._s.bizTab('health',this)">Health</div>
+    <div class="tab" onclick="window._s&&window._s.bizTab('tech',this)">Tech</div>
+    <div class="tab" onclick="window._s&&window._s.bizTab('fashion',this)">Fashion</div>
+    <div class="tab" onclick="window._s&&window._s.bizTab('finance',this)">Finance</div>
+    <div class="tab" onclick="window._s&&window._s.bizTab('other',this)">Other</div>
+  </div>
+  <div class="filters">
+    <input type="text" id="biz-search" placeholder="Search businesses..." oninput="window._s&&window._s.renderBiz()"/>
+    <select id="biz-area" onchange="window._s&&window._s.renderBiz()"><option value="">All Areas</option></select>
+  </div>
+  <div class="section-title">Businesses <span class="count-chip" id="biz-count">0</span></div>
+  <div id="biz-list"><div class="loading">Loading...</div></div>
+</div>
+
+<!-- TUTORS PAGE -->
+<div class="page" id="page-tutors">
+  <div class="section-hero teal">
+    <h2>Learn a Skill</h2>
+    <p>Find tutors and trainers in Rivers State. Academic, vocational, digital and more.</p>
+    <div class="hero-btns">
+      <button class="btn btn-green" onclick="window._s&&window._s.goAccount()">Become a Tutor</button>
+      <button class="btn btn-outline" onclick="window._s&&window._s.goAccount()">Find a Tutor</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="window._s&&window._s.tutTab('all',this)">All</div>
+    <div class="tab" onclick="window._s&&window._s.tutTab('academic',this)">Academic</div>
+    <div class="tab" onclick="window._s&&window._s.tutTab('vocational',this)">Vocational</div>
+    <div class="tab" onclick="window._s&&window._s.tutTab('digital',this)">Digital</div>
+    <div class="tab" onclick="window._s&&window._s.tutTab('professional',this)">Professional</div>
+  </div>
+  <div class="filters">
+    <input type="text" id="tutors-search" placeholder="Search tutors..." oninput="window._s&&window._s.renderTutors()"/>
+    <select id="tutors-area" onchange="window._s&&window._s.renderTutors()"><option value="">All Areas</option></select>
+  </div>
+  <div class="section-title">Tutors <span class="count-chip" id="tutors-count">0</span></div>
+  <div id="tutors-list"><div class="loading">Loading...</div></div>
+</div>
+
+<!-- MESSAGES PAGE -->
+<div class="page" id="page-messages">
+  <div class="section-title">Messages</div>
+  <div id="inbox-list"><div class="loading">Loading...</div></div>
+</div>
+
+<!-- LISTING MODAL -->
+<div id="modal-overlay" onclick="window._s&&window._s.closeModal(event)">
+  <div id="modal">
+    <button id="modal-close" onclick="window._s&&window._s.closeModal()">x</button>
+    <div id="modal-badge"></div>
+    <h2 id="modal-title" style="margin:8px 0 5px;font-size:1.2rem"></h2>
+    <div id="modal-meta" style="font-size:.82rem;color:var(--muted);margin-bottom:10px"></div>
+    <p id="modal-desc" style="font-size:.9rem;line-height:1.6;white-space:pre-wrap"></p>
+    <div id="modal-extra"></div>
+    <div class="contact-box" id="modal-contact-box"><h4>Contact</h4><div id="modal-contact"></div></div>
+    <div id="modal-like-row" class="like-row" style="margin-top:14px"></div>
+    <div id="modal-actions" style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"></div>
+  </div>
+</div>
+
+<!-- LIKERS MODAL -->
+<div id="likers-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div id="likers-modal">
+    <button style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted)" onclick="document.getElementById('likers-overlay').classList.remove('open')">x</button>
+    <h3 style="margin-bottom:14px;color:var(--dark)">People who liked this</h3>
+    <div id="likers-list"></div>
+  </div>
+</div>
+
+<!-- LIKER PROFILE MODAL -->
+<div id="liker-profile-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div id="liker-profile-modal">
+    <button style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted)" onclick="document.getElementById('liker-profile-overlay').classList.remove('open')">x</button>
+    <div id="liker-profile-content"></div>
+  </div>
+</div>
+
+<!-- RE-AUTH MODAL -->
+<div id="reauth-overlay">
+  <div id="reauth-modal">
+    <h3 style="margin-bottom:8px;color:var(--dark)">Confirm Your Identity</h3>
+    <p style="color:var(--muted);font-size:.86rem;margin-bottom:16px">Enter your password to confirm this deletion.</p>
+    <div class="field"><input type="password" id="reauth-pass" placeholder="Your password"/></div>
+    <div class="err" id="reauth-err"></div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:8px">
+      <button class="btn btn-outline" onclick="window._s&&window._s.cancelReauth()">Cancel</button>
+      <button class="btn btn-red" onclick="window._s&&window._s.doReauth()">Confirm Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div id="chat-overlay">
+  <div id="chat-box">
+    <div class="chat-header">
+      <div>
+        <div class="ch-name" id="chat-with-name">Chat</div>
+        <div class="ch-sub" id="chat-about"></div>
+      </div>
+      <button style="background:none;border:none;color:#aac9b5;font-size:1.3rem;cursor:pointer;margin-left:auto" onclick="window._s&&window._s.closeChat()">x</button>
+    </div>
+    <div id="chat-messages"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter')window._s&&window._s.sendMsg()"/>
+      <button onclick="window._s&&window._s.sendMsg()">&#10148;</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div id="popup-overlay">
+  <div id="popup">
+    <div class="confetti">&#127881;</div>
+    <h2>Congratulations!</h2>
+    <p id="popup-msg"></p>
+    <button class="btn btn-green btn-full" onclick="window._s&&window._s.closePopup()">Done</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+<footer>Sriva &copy; 2026 &middot; Jobs &middot; Gigs &middot; Businesses &middot; Tutor &middot; Rivers State &middot; Free for everyone</footer>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import{initializeAppCheck,ReCaptchaV3Provider}from"https://www.gstatic.com/firebasejs/12.13.0/firebase-app-check.js";
+import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,deleteUser,sendEmailVerification,sendPasswordResetEmail,EmailAuthProvider,reauthenticateWithCredential}from"https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import{getFirestore,collection,doc,getDoc,getDocs,setDoc,deleteDoc,query,orderBy,where,serverTimestamp,runTransaction,arrayUnion,arrayRemove,updateDoc,onSnapshot,limit,addDoc}from"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const app=initializeApp({apiKey:"AIzaSyBLuZKFQTmgEQWsaS5wnFF0ZBMNcCM2Wfc",authDomain:"sriva-jobs.firebaseapp.com",projectId:"sriva-jobs",storageBucket:"sriva-jobs.firebasestorage.app",messagingSenderId:"900041052048",appId:"1:900041052048:web:042471fac94fe7b5796d15"});
+initializeAppCheck(app,{provider:new ReCaptchaV3Provider('6LfTK-IsAAAAAPs6wVC0sFDj8lkFOmt5Jn1fZ9oj'),isTokenAutoRefreshEnabled:true});
+const auth=getAuth(app),db=getFirestore(app),AE='jtamunogbeye@gmail.com';
+
+const LGA={
+  'Abua-Odual':['Abua','Odual','Otari','Other'],'Ahoada East':['Ahoada','Mbiama','Odiereke','Other'],'Ahoada West':['Ahoada West','Edeoha','Omoku','Other'],'Akuku-Toru':['Abonnema','Bukuma','Kula','Soku','Other'],'Andoni':['Ngo','Opobo','Andoni','Other'],'Asari-Toru':['Buguma','Abalama','Bakana','Degema Hulk','Other'],'Bonny':['Bonny Town','Finima','Abalamabie','Other'],'Degema':['Degema','Usokun','Ataba','Other'],'Eleme':['Eleme','Alesa','Ogale','Ekporo','Other'],'Emohua':['Emohua','Obele','Rumuji','Other'],'Etche':['Okehi','Umuechem','Chokocho','Other'],'Gokana':['Bori','Barako','Biara','Other'],'Ikwerre':['Isiokpo','Igwuruta','Rumuola','Other'],'Khana':['Sogho','Lueku','Bera','Other'],'Obio-Akpor':['Rukpokwu','Rumuibekwe','Rumuokoro','Rumuodara','Woji','Trans-Amadi','Rumuepirikom','Other'],'Ogba-Egbema-Ndoni':['Omoku','Egbema','Ndoni','Obagi','Other'],'Ogu-Bolo':['Ogu','Bolo','Other'],'Okrika':['Okrika','Ibaka','Tom Angalabiri','Other'],'Omuma':['Omuma','Other'],'Opobo-Nkoro':['Opobo','Nkoro','Other'],'Oyigbo':['Oyigbo','Isiokpo','Other'],'Port Harcourt':['D/Line','GRA','Mile 1','Mile 2','Mile 3','Mile 4','Diobu','Rumuigbo','Rumuokwurusi','Choba','Woji','Other'],'Tai':['Tai','Nonwa','Korokoro','Other']
+};
+const LGAS=Object.keys(LGA).sort();
+
+let CU=null,CP=null,ntimer=null,_rcb=null;
+let aJobs=[],aSeekers=[],aGigs=[],aBiz=[],aTutors=[];
+let jtab='all',gtab='all',btab='all',ttab='all';
+let chatId=null,chatUnsub=null;
+
+const gi=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+const sh=(id,v)=>{const e=gi(id);if(!e)return;e.style.display='block';if(v!==undefined)e.textContent=v;};
+const hi=id=>{const e=gi(id);if(e)e.style.display='none';};
+function ago(val){if(!val)return'';let ms=typeof val.toMillis==='function'?val.toMillis():val;const d=(Date.now()-ms)/1000;if(d<60)return'just now';if(d<3600)return Math.floor(d/60)+'m ago';if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago';}
+function days(val){if(!val)return 0;let ms=typeof val.toMillis==='function'?val.toMillis():val;return Math.max(0,Math.floor((Date.now()-ms)/86400000));}
+let _tt;
+function toast(m){const e=gi('toast');e.textContent=m;e.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>e.classList.remove('show'),3000);}
+
+function populateLGAs(){
+  ['job-lga','seek-lga','gig-lga','biz-lga','tutor-lga'].forEach(id=>{const e=gi(id);if(!e)return;e.innerHTML='<option value="">Select LGA</option>';LGAS.forEach(l=>e.innerHTML+=`<option value="${l}">${l}</option>`);});
+  ['jobs-area','gigs-area','biz-area','tutors-area'].forEach(id=>{const e=gi(id);if(!e)return;e.innerHTML='<option value="">All Areas</option>';LGAS.forEach(l=>e.innerHTML+=`<option value="${l}">${l}</option>`);});
+}
+function updT(la,ta,wa){const le=gi(la);if(!le)return;const lv=le.value,te=gi(ta);hi(wa);if(!lv){if(te)te.innerHTML='<option>Select LGA first</option>';return;}const ts=LGA[lv]||['Other'];if(te)te.innerHTML=ts.map(t=>`<option value="${t}">${t}</option>`).join('');togO(ta,wa);}
+function togO(ta,wa){const e=gi(ta);if(!e)return;e.value==='Other'?sh(wa):hi(wa);}
+function togC(ti,vi,li){const e=gi(ti);if(!e)return;const t=e.value;const lb=gi(li);if(lb)lb.textContent={email:'Email Address',phone:'Phone Number',social:'Social Media Handle'}[t];const ip=gi(vi);if(ip)ip.placeholder={email:'e.g. you@gmail.com',phone:'e.g. 08012345678',social:'e.g. @yourhandle'}[t];}
+function getLoc(la,ta,oa){const lv=(gi(la)?.value)||'';const tv=(gi(ta)?.value)||'';const ov=(gi(oa)?.value?.trim())||'';if(!lv)return'';return tv==='Other'?`${lv} - ${ov||'Other'}`:`${lv} - ${tv}`;}
+
+async function incStat(type){
+  try{
+    const ref=doc(db,'meta','stats');
+    await runTransaction(db,async tx=>{const s=await tx.get(ref);const d=s.exists()?s.data():{total:0,job_filled:0,job_gotten:0};tx.set(ref,{total:(d.total||0)+1,job_filled:(d.job_filled||0)+(type==='job_filled'?1:0),job_gotten:(d.job_gotten||0)+(type==='job_gotten'?1:0),last_event:serverTimestamp()});});
+    showNotif();
+  }catch(e){console.error(e);}
+}
+async function getStats(){try{const s=await getDoc(doc(db,'meta','stats'));return s.exists()?s.data():{total:0};}catch(e){return{total:0};}}
+function showNotif(){getStats().then(s=>{const nb=gi('notif-bar');nb.innerHTML=`${s.total} person${s.total!==1?'s have':' has'} gotten connected through Sriva!`;nb.style.display='block';clearTimeout(ntimer);ntimer=setTimeout(()=>nb.style.display='none',300000);});}
+
+onAuthStateChanged(auth,async user=>{
+  if(user){
+    CU=user;
+    try{const s=await getDoc(doc(db,'users',user.uid));if(s.exists()){CP=s.data();await setDoc(doc(db,'users',user.uid),{...CP,lastActive:serverTimestamp()},{merge:true});}}catch(e){}
+  }else{CU=null;CP=null;}
+  updateNav();loadAll();
+});
+
+async function doSignup(){
+  const u=gi('su-user').value.trim(),em=gi('su-email').value.trim(),pw=gi('su-pass').value.trim(),pw2=gi('su-pass2').value.trim();
+  hi('su-err');hi('su-info');
+  if(!u||!em||!pw||!pw2){sh('su-err','Please fill in all fields.');return;}
+  if(u.length<3||u.length>30){sh('su-err','Username must be 3-30 characters.');return;}
+  if(pw.length<6){sh('su-err','Password must be at least 6 characters.');return;}
+  if(pw!==pw2){sh('su-err','Passwords do not match.');return;}
+  try{
+    const c=await createUserWithEmailAndPassword(auth,em,pw);
+    await sendEmailVerification(c.user);
+    const now=serverTimestamp();
+    await setDoc(doc(db,'users',c.user.uid),{username:u,email:em,createdAt:now,lastActive:now});
+    CP={username:u,email:em};
+    gi('su-user').value='';gi('su-email').value='';gi('su-pass').value='';gi('su-pass2').value='';
+    sh('su-info','Account created! Check your email to verify your account before posting.');
+    setTimeout(()=>showPage('account'),1500);
+  }catch(e){
+    const m={'auth/email-already-in-use':'Email already registered.','auth/invalid-email':'Invalid email.','auth/weak-password':'Password must be at least 6 characters.'};
+    sh('su-err',m[e.code]||'Error creating account.');
+  }
+}
+
+async function doLogin(){
+  const em=gi('login-email').value.trim(),pw=gi('login-pass').value.trim();
+  hi('login-err');
+  if(!em||!pw){sh('login-err','Enter your email and password.');return;}
+  try{await signInWithEmailAndPassword(auth,em,pw);toast('Welcome back!');showPage('account');}
+  catch(e){const m={'auth/user-not-found':'No account found.','auth/wrong-password':'Incorrect password.','auth/invalid-credential':'Incorrect email or password.'};sh('login-err',m[e.code]||'Login failed.');}
+}
+
+async function forgotPw(){
+  const em=gi('login-email').value.trim();hi('login-err');
+  if(!em){sh('login-err','Enter your email above first.');return;}
+  try{await sendPasswordResetEmail(auth,em);toast('Password reset email sent!');}
+  catch(e){sh('login-err','Could not send reset email.');}
+}
+
+async function doLogout(){await signOut(auth);showSection('jobs');toast('Logged out.');}
+
+function confirmDel(){_rcb=()=>nukeUser(true);gi('reauth-pass').value='';hi('reauth-err');gi('reauth-overlay').classList.add('open');}
+function cancelReauth(){gi('reauth-overlay').classList.remove('open');_rcb=null;}
+async function doReauth(){
+  const pw=gi('reauth-pass').value;hi('reauth-err');
+  if(!pw){sh('reauth-err','Enter your password.');return;}
+  try{
+    const c=EmailAuthProvider.credential(CU.email,pw);
+    await reauthenticateWithCredential(CU,c);
+    gi('reauth-overlay').classList.remove('open');
+    if(_rcb)_rcb();_rcb=null;
+  }catch(e){sh('reauth-err','Incorrect password.');}
+}
+function adminDel(id,col){
+  _rcb=async()=>{
+    try{await deleteDoc(doc(db,col,id));toast('Deleted.');closeModal();await loadAll();renderAccount();}
+    catch(e){toast('Error deleting.');}
+  };
+  gi('reauth-pass').value='';hi('reauth-err');gi('reauth-overlay').classList.add('open');
+}
+async function nukeUser(msg){
+  if(!CU)return;
+  try{
+    const uid=CU.uid;
+    for(const col of['jobs','seekers','gigs','businesses','tutors']){const s=await getDocs(query(collection(db,col),where('poster','==',uid)));for(const d of s.docs)await deleteDoc(d.ref);}
+    await deleteDoc(doc(db,'users',uid));
+    await deleteUser(CU);CU=null;CP=null;
+    if(msg)toast('Account deleted.');
+    await loadAll();showSection('jobs');
+  }catch(e){toast('Error. Log out and back in first.');}
+}
+
+async function resendVerify(){if(!CU)return;try{await sendEmailVerification(CU);toast('Verification email sent!');}catch(e){toast('Could not resend. Try shortly.');}}
+function goAccount(){if(!CU){showPage('login');return;}showPage('account');}
+
+async function loadAll(){
+  try{
+    const [j,sk,g,b,t]=await Promise.all([
+      getDocs(query(collection(db,'jobs'),orderBy('postedAt','desc'))),
+      getDocs(query(collection(db,'seekers'),orderBy('postedAt','desc'))),
+      getDocs(query(collection(db,'gigs'),orderBy('postedAt','desc'))),
+      getDocs(query(collection(db,'businesses'),orderBy('postedAt','desc'))),
+      getDocs(query(collection(db,'tutors'),orderBy('postedAt','desc')))
+    ]);
+    aJobs=j.docs.map(d=>({...d.data(),_col:'jobs'}));
+    aSeekers=sk.docs.map(d=>({...d.data(),_col:'seekers'}));
+    aGigs=g.docs.map(d=>({...d.data(),_col:'gigs'}));
+    aBiz=b.docs.map(d=>({...d.data(),_col:'businesses'}));
+    aTutors=t.docs.map(d=>({...d.data(),_col:'tutors'}));
+    renderJobs();renderGigs();renderBiz();renderTutors();
+  }catch(e){console.error(e);}
+}
+
+async function postJob(){
+  if(!CU){toast('Please log in.');return;}
+  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  hi('post-err');
+  const title=gi('job-title').value.trim(),type=gi('job-type').value,desc=gi('job-desc').value.trim(),ct=gi('job-ctype').value,cv=gi('job-cval').value.trim(),slots=gi('job-slots').value;
+  const loc=getLoc('job-lga','job-town','job-other');
+  if(!title||!desc||!cv||!loc){sh('post-err','Fill all fields.');return;}
+  try{
+    const id='j'+Date.now();
+    await setDoc(doc(db,'jobs',id),{id,title,type,location:loc,desc,contactType:ct,contactVal:cv,slots,poster:CU.uid,postedAt:serverTimestamp(),likes:[],filled:false});
+    gi('job-title').value='';gi('job-desc').value='';gi('job-cval').value='';
+    toast('Job posted!');await loadAll();renderAccount();
+  }catch(e){sh('post-err','Error posting.');}
+}
+
+async function postSeeker(){
+  if(!CU){toast('Please log in.');return;}
+  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  hi('seek-err');
+  const st=gi('seek-title').value.trim(),type=gi('seek-type').value,bio=gi('seek-bio').value.trim(),ct=gi('seek-ctype').value,cv=gi('seek-cval').value.trim();
+  const loc=getLoc('seek-lga','seek-town','seek-other');
+  if(!bio||!cv||!loc){sh('seek-err','Fill all fields.');return;}
+  try{
+    const old=await getDocs(query(collection(db,'seekers'),where('poster','==',CU.uid)));
+    for(const d of old.docs)await deleteDoc(d.ref);
+    const id='s'+Date.now();
+    await setDoc(doc(db,'seekers',id),{id,type,seekTitle:st,location:loc,bio,contactType:ct,contactVal:cv,poster:CU.uid,username:CP?.username||'',postedAt:serverTimestamp(),likes:[],filled:false});
+    toast('Profile saved!');await loadAll();renderAccount();
+  }catch(e){sh('seek-err','Error saving.');}
+}
+
+async function postGig(){
+  if(!CU){toast('Please log in.');return;}
+  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  hi('gig-err');
+  const title=gi('gig-title').value.trim(),cat=gi('gig-cat').value,desc=gi('gig-desc').value.trim(),price=gi('gig-price').value.trim(),ct=gi('gig-ctype').value,cv=gi('gig-cval').value.trim();
+  const loc=getLoc('gig-lga','gig-town','gig-other');
+  if(!title||!desc||!cv||!loc){sh('gig-err','Fill all required fields.');return;}
+  try{
+    const id='g'+Date.now();
+    await setDoc(doc(db,'gigs',id),{id,title,cat,desc,price,location:loc,contactType:ct,contactVal:cv,poster:CU.uid,username:CP?.username||'',postedAt:serverTimestamp(),likes:[],interested:[]});
+    gi('gig-title').value='';gi('gig-desc').value='';gi('gig-price').value='';gi('gig-cval').value='';
+    toast('Service posted!');await loadAll();renderAccount();
+  }catch(e){sh('gig-err','Error posting.');}
+}
+
+async function postBusiness(){
+  if(!CU){toast('Please log in.');return;}
+  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  hi('biz-err');
+  const name=gi('biz-name').value.trim(),cat=gi('biz-cat').value,desc=gi('biz-desc').value.trim(),hours=gi('biz-hours').value.trim(),web=gi('biz-web').value.trim(),ct=gi('biz-ctype').value,cv=gi('biz-cval').value.trim();
+  const loc=getLoc('biz-lga','biz-town','biz-other');
+  if(!name||!desc||!cv||!loc){sh('biz-err','Fill all required fields.');return;}
+  try{
+    const old=await getDocs(query(collection(db,'businesses'),where('poster','==',CU.uid)));
+    for(const d of old.docs)await deleteDoc(d.ref);
+    const id='b'+Date.now();
+    await setDoc(doc(db,'businesses',id),{id,name,cat,desc,hours,web,location:loc,contactType:ct,contactVal:cv,poster:CU.uid,username:CP?.username||'',postedAt:serverTimestamp(),likes:[],verified:false,featured:false});
+    toast('Business listed!');await loadAll();renderAccount();
+  }catch(e){sh('biz-err','Error listing.');}
+}
+
+async function postTutor(){
+  if(!CU){toast('Please log in.');return;}
+  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  hi('tutor-err');
+  const sub=gi('tutor-subject').value.trim(),cat=gi('tutor-cat').value,bio=gi('tutor-bio').value.trim(),fee=gi('tutor-fee').value.trim(),mode=gi('tutor-mode').value,ct=gi('tutor-ctype').value,cv=gi('tutor-cval').value.trim();
+  const loc=getLoc('tutor-lga','tutor-town','tutor-other');
+  if(!sub||!bio||!cv||!loc){sh('tutor-err','Fill all required fields.');return;}
+  try{
+    const old=await getDocs(query(collection(db,'tutors'),where('poster','==',CU.uid)));
+    for(const d of old.docs)await deleteDoc(d.ref);
+    const id='t'+Date.now();
+    await setDoc(doc(db,'tutors',id),{id,subject:sub,cat,bio,fee,mode,location:loc,contactType:ct,contactVal:cv,poster:CU.uid,username:CP?.username||'',postedAt:serverTimestamp(),likes:[]});
+    toast('Tutor profile saved!');await loadAll();renderAccount();
+  }catch(e){sh('tutor-err','Error saving.');}
+}
+
+async function markFilled(jid){
+  if(!CU)return;
+  const isAdmin=CP?.email===AE;
+  const item=aJobs.find(j=>j.id===jid);if(!item)return;
+  if(item.poster!==CU.uid&&!isAdmin){toast('Only the poster or admin can mark this.');return;}
+  try{
+    await deleteDoc(doc(db,'jobs',jid));
+    await incStat('job_filled');
+    showBanner(item.title||'a position');
+    aJobs=aJobs.filter(j=>j.id!==jid);closeModal();
+    if(!isAdmin&&item.slots==='1'){
+      const left=aJobs.filter(j=>j.poster===item.poster);
+      if(!left.length){setTimeout(()=>showPopup('You filled your only job listing. Your account has been removed. Thank you for using Sriva!'),400);if(CU.uid===item.poster)setTimeout(()=>nukeUser(false),2500);}
+      else{renderJobs();renderAccount();}
+    }else{renderJobs();renderAccount();}
+  }catch(e){console.error(e);}
+}
+
+async function markGotten(sid){
+  if(!CU)return;
+  const isAdmin=CP?.email===AE;
+  const item=aSeekers.find(s=>s.id===sid);if(!item)return;
+  if(item.poster!==CU.uid&&!isAdmin){toast('Only the poster or admin can mark this.');return;}
+  try{
+    await deleteDoc(doc(db,'seekers',sid));
+    await incStat('job_gotten');
+    showBanner('a seeker just got connected!');
+    aSeekers=aSeekers.filter(s=>s.id!==sid);closeModal();
+    if(!isAdmin){setTimeout(()=>showPopup('Congratulations on getting connected! Thank you for using Sriva!'),400);if(CU.uid===item.poster)setTimeout(()=>nukeUser(false),2500);}
+    else{renderJobs();renderAccount();}
+  }catch(e){console.error(e);}
+}
+
+function getArr(col){return col==='jobs'?aJobs:col==='seekers'?aSeekers:col==='gigs'?aGigs:col==='businesses'?aBiz:aTutors;}
+function setArr(col,val){if(col==='jobs')aJobs=val;else if(col==='seekers')aSeekers=val;else if(col==='gigs')aGigs=val;else if(col==='businesses')aBiz=val;else aTutors=val;}
+
+async function toggleLike(id,col){
+  if(!CU){toast('Log in to like listings.');return;}
+  const arr=getArr(col);const item=arr.find(x=>x.id===id);if(!item)return;
+  const uid=CU.uid,likes=item.likes||[],already=likes.includes(uid);
+  try{
+    if(already){await updateDoc(doc(db,col,id),{likes:arrayRemove(uid)});item.likes=likes.filter(u=>u!==uid);}
+    else{await updateDoc(doc(db,col,id),{likes:arrayUnion(uid)});item.likes=[...likes,uid];}
+    if(col==='jobs'||col==='seekers')renderJobs();else if(col==='gigs')renderGigs();else if(col==='businesses')renderBiz();else renderTutors();
+    if(gi('modal-overlay').classList.contains('open'))renderMLike(item,col);
+  }catch(e){console.error(e);}
+}
+
+function renderMLike(item,col){
+  const row=gi('modal-like-row');if(!row)return;
+  const uid=CU?.uid,likes=item.likes||[],liked=uid&&likes.includes(uid),cnt=likes.length;
+  const own=uid&&(item.poster===uid||CP?.email===AE);
+  row.innerHTML=`
+    <button class="like-btn${liked?' liked':''}" onclick="window._s&&window._s.toggleLike('${esc(item.id)}','${col}')">
+      &#128077; ${cnt>0?`<span class="like-count">${cnt}</span>`:'Like'}
+    </button>
+    ${cnt>0&&own?`<span class="who-liked" onclick="window._s&&window._s.showLikers('${esc(item.id)}','${col}')">Who liked (${cnt})</span>`:''}
+  `;
+}
+
+async function showLikers(id,col){
+  const item=getArr(col).find(x=>x.id===id);if(!item)return;
+  const likes=item.likes||[];
+  gi('likers-list').innerHTML='<div class="loading" style="padding:20px">Loading...</div>';
+  gi('likers-overlay').classList.add('open');
+  if(!likes.length){gi('likers-list').innerHTML='<p style="color:var(--muted);text-align:center;padding:20px">No likes yet.</p>';return;}
+  const rows=[];
+  for(const uid of likes){try{const s=await getDoc(doc(db,'users',uid));if(s.exists()){const u=s.data();rows.push({uid,username:u.username||'User',role:u.role||'user'});}}catch(e){}}
+  gi('likers-list').innerHTML=rows.map(u=>`
+    <div class="liker-row" onclick="window._s&&window._s.viewLiker('${esc(u.uid)}')">
+      <div class="liker-avatar">${(u.username||'U')[0].toUpperCase()}</div>
+      <div><div class="liker-name">${esc(u.username)}</div><div class="liker-role">${esc(u.role)}</div></div>
+      <span style="margin-left:auto;font-size:.76rem;color:var(--green)">View</span>
+    </div>`).join('')||'<p style="color:var(--muted);text-align:center;padding:16px">No data found.</p>';
+}
+
+async function viewLiker(uid){
+  const s=await getDoc(doc(db,'users',uid));if(!s.exists()){toast('Profile not found.');return;}
+  const u=s.data(),d=days(u.createdAt);
+  gi('liker-profile-content').innerHTML=`
+    <div style="text-align:center;margin-bottom:18px">
+      <div style="width:60px;height:60px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;color:var(--green);margin:0 auto 10px">${(u.username||'U')[0].toUpperCase()}</div>
+      <h2 style="font-size:1.2rem">${esc(u.username||'User')}</h2>
+      <div style="font-size:.83rem;color:var(--muted)">${esc(u.role||'member')} &middot; ${d} day${d!==1?'s':''} on Sriva</div>
+    </div>`;
+  gi('likers-overlay').classList.remove('open');
+  gi('liker-profile-overlay').classList.add('open');
+}
+
+async function toggleInt(gid){
+  if(!CU){toast('Log in to express interest.');return;}
+  const item=aGigs.find(x=>x.id===gid);if(!item)return;
+  const uid=CU.uid,list=item.interested||[],already=list.includes(uid);
+  try{
+    if(already){await updateDoc(doc(db,'gigs',gid),{interested:arrayRemove(uid)});item.interested=list.filter(u=>u!==uid);}
+    else{await updateDoc(doc(db,'gigs',gid),{interested:arrayUnion(uid)});item.interested=[...list,uid];}
+    renderGigs();
+  }catch(e){console.error(e);}
+}
+
+function likeBtn(item,col){
+  const uid=CU?.uid,likes=item.likes||[],liked=uid&&likes.includes(uid),cnt=likes.length;
+  return`<button class="like-btn${liked?' liked':''}" onclick="window._s&&window._s.toggleLike('${esc(item.id)}','${col}')">&#128077; ${cnt>0?`<span class="like-count">${cnt}</span>`:''}</button>`;
+}
+function whoLiked(item,col){
+  const cnt=(item.likes||[]).length;
+  const uid=CU?.uid;const own=uid&&(item.poster===uid||CP?.email===AE);
+  return cnt>0&&own?`<span class="who-liked" onclick="window._s&&window._s.showLikers('${esc(item.id)}','${col}')">Who liked (${cnt})</span>`:'';
+}
+function chatBtnHtml(posterUid,itemId,label){
+  if(!CU||posterUid===CU.uid)return'';
+  return`<button class="chat-btn" onclick="window._s&&window._s.startChat('${esc(posterUid)}','${esc(itemId)}','${esc(label)}')">&#128172; Chat</button>`;
+}
+
+function renderJobs(){
+  const q=(gi('jobs-search')?.value||'').toLowerCase();
+  const area=gi('jobs-area')?.value||'';
+  const combined=[...aJobs,...aSeekers].sort((a,b)=>(b.postedAt?.toMillis?.()||0)-(a.postedAt?.toMillis?.()||0));
+  const list=combined.filter(item=>{
+    const isJ=item._col==='jobs';
+    const mt=jtab==='all'||(jtab==='job'&&isJ)||(jtab==='seeker'&&!isJ)||(jtab==='professional'&&item.type==='professional')||(jtab==='non-professional'&&item.type==='non-professional');
+    const mq=!q||(item.title||'').toLowerCase().includes(q)||(item.bio||'').toLowerCase().includes(q)||(item.desc||'').toLowerCase().includes(q)||(item.username||'').toLowerCase().includes(q)||(item.seekTitle||'').toLowerCase().includes(q);
+    const ma=!area||(item.location||'').includes(area);
+    return mt&&mq&&ma;
+  });
+  const ce=gi('jobs-count');if(ce)ce.textContent=list.length;
+  const le=gi('jobs-list');if(!le)return;
+  le.innerHTML=list.length?list.map(item=>{
+    const isJ=item._col==='jobs';
+    const label=isJ?esc(item.title):`${esc(item.username||'Seeker')}${item.seekTitle?` - ${esc(item.seekTitle)}`:''}`;
+    const bCls=isJ?(item.type==='professional'?'pro':''):'seeker';
+    const typeLabel=isJ?(item.type==='professional'?'Professional':'Non-Pro'):'Job Seeker';
+    return`<div class="card">
+      <div class="card-top" onclick="window._s&&window._s.openModal('${esc(item.id)}','${item._col}')">
+        <div><h3>${label}</h3><span class="badge ${bCls}">${typeLabel}</span></div>
+        <span style="font-size:.78rem;color:var(--muted);white-space:nowrap">${ago(item.postedAt)}</span>
+      </div>
+      <div class="card-meta" onclick="window._s&&window._s.openModal('${esc(item.id)}','${item._col}')">
+        <span>&#128205; ${esc(item.location||'')}</span>
+        <span>${isJ?'&#128188; Job':'&#128100; Seeker'}</span>
+      </div>
+      <div class="like-row">
+        ${likeBtn(item,item._col)}
+        ${whoLiked(item,item._col)}
+        ${chatBtnHtml(item.poster,item.id,isJ?item.title:item.username||'Seeker')}
+      </div>
+    </div>`;
+  }).join(''):`<div class="empty"><div class="empty-icon">&#128269;</div>No listings found.</div>`;
+}
+
+function renderGigs(){
+  const q=(gi('gigs-search')?.value||'').toLowerCase();
+  const area=gi('gigs-area')?.value||'';
+  const list=aGigs.filter(item=>{
+    const mt=gtab==='all'||item.cat===gtab;
+    const mq=!q||(item.title||'').toLowerCase().includes(q)||(item.desc||'').toLowerCase().includes(q)||(item.username||'').toLowerCase().includes(q);
+    const ma=!area||(item.location||'').includes(area);
+    return mt&&mq&&ma;
+  });
+  const ce=gi('gigs-count');if(ce)ce.textContent=list.length;
+  const le=gi('gigs-list');if(!le)return;
+  le.innerHTML=list.length?list.map(item=>{
+    const interested=item.interested||[],isInt=CU&&interested.includes(CU.uid);
+    return`<div class="card">
+      <div class="card-top" onclick="window._s&&window._s.openModal('${esc(item.id)}','gigs')">
+        <div><h3>${esc(item.title)}</h3><span class="badge gig">${esc(item.cat||'gig')}</span></div>
+        <span style="font-size:.78rem;color:var(--muted);white-space:nowrap">${ago(item.postedAt)}</span>
+      </div>
+      <div class="card-meta" onclick="window._s&&window._s.openModal('${esc(item.id)}','gigs')">
+        <span>&#128205; ${esc(item.location||'')}</span>
+        ${item.price?`<span>&#128176; ${esc(item.price)}</span>`:''}
+        <span>&#128100; ${esc(item.username||'')}</span>
+      </div>
+      <div class="like-row">
+        ${likeBtn(item,'gigs')}
+        ${CU&&item.poster!==CU.uid?`<button class="int-btn${isInt?' active':''}" onclick="window._s&&window._s.toggleInt('${esc(item.id)}')">&#9995; ${isInt?'Interested':'I\'m Interested'}${interested.length>0?` (${interested.length})`:''}</button>`:''}
+        ${chatBtnHtml(item.poster,item.id,item.title)}
+      </div>
+    </div>`;
+  }).join(''):`<div class="empty"><div class="empty-icon">&#9889;</div>No services listed yet. Be the first!</div>`;
+}
+
+function renderBiz(){
+  const q=(gi('biz-search')?.value||'').toLowerCase();
+  const area=gi('biz-area')?.value||'';
+  const list=aBiz.filter(item=>{
+    const mt=btab==='all'||item.cat===btab;
+    const mq=!q||(item.name||'').toLowerCase().includes(q)||(item.desc||'').toLowerCase().includes(q);
+    const ma=!area||(item.location||'').includes(area);
+    return mt&&mq&&ma;
+  });
+  const ce=gi('biz-count');if(ce)ce.textContent=list.length;
+  const le=gi('biz-list');if(!le)return;
+  le.innerHTML=list.length?list.map(item=>{
+    const desc=(item.desc||'').substring(0,120);
+    return`<div class="card">
+      <div class="card-top" onclick="window._s&&window._s.openModal('${esc(item.id)}','businesses')">
+        <div>
+          <h3>${esc(item.name||'')}${item.verified?' <span class="badge verified">Verified</span>':''}${item.featured?' <span class="badge featured">Featured</span>':''}</h3>
+          <span class="badge biz">${esc(item.cat||'')}</span>
+        </div>
+        <span style="font-size:.78rem;color:var(--muted);white-space:nowrap">${ago(item.postedAt)}</span>
+      </div>
+      <div style="font-size:.88rem;color:var(--text);margin-top:8px;line-height:1.5" onclick="window._s&&window._s.openModal('${esc(item.id)}','businesses')">${esc(desc)}${item.desc&&item.desc.length>120?'...':''}</div>
+      <div class="card-meta" onclick="window._s&&window._s.openModal('${esc(item.id)}','businesses')">
+        <span>&#128205; ${esc(item.location||'')}</span>
+        ${item.hours?`<span>&#128336; ${esc(item.hours)}</span>`:''}
+      </div>
+      <div class="like-row">
+        ${likeBtn(item,'businesses')}
+        ${whoLiked(item,'businesses')}
+        ${chatBtnHtml(item.poster,item.id,item.name||'Business')}
+      </div>
+    </div>`;
+  }).join(''):`<div class="empty"><div class="empty-icon">&#127978;</div>No businesses listed yet. Be the first!</div>`;
+}
+
+function renderTutors(){
+  const q=(gi('tutors-search')?.value||'').toLowerCase();
+  const area=gi('tutors-area')?.value||'';
+  const list=aTutors.filter(item=>{
+    const mt=ttab==='all'||item.cat===ttab;
+    const mq=!q||(item.subject||'').toLowerCase().includes(q)||(item.bio||'').toLowerCase().includes(q)||(item.username||'').toLowerCase().includes(q);
+    const ma=!area||(item.location||'').includes(area);
+    return mt&&mq&&ma;
+  });
+  const ce=gi('tutors-count');if(ce)ce.textContent=list.length;
+  const le=gi('tutors-list');if(!le)return;
+  le.innerHTML=list.length?list.map(item=>`<div class="card">
+    <div class="card-top" onclick="window._s&&window._s.openModal('${esc(item.id)}','tutors')">
+      <div><h3>${esc(item.subject||'Tutor')}</h3><span class="badge tutor">${esc(item.cat||'')}</span></div>
+      <span style="font-size:.78rem;color:var(--muted);white-space:nowrap">${ago(item.postedAt)}</span>
+    </div>
+    <div class="card-meta" onclick="window._s&&window._s.openModal('${esc(item.id)}','tutors')">
+      <span>&#128205; ${esc(item.location||'')}</span>
+      ${item.fee?`<span>&#128176; ${esc(item.fee)}</span>`:''}
+      <span>${item.mode||'in-person'}</span>
+      <span>&#128100; ${esc(item.username||'')}</span>
+    </div>
+    <div class="like-row">
+      ${likeBtn(item,'tutors')}
+      ${whoLiked(item,'tutors')}
+      ${chatBtnHtml(item.poster,item.id,item.subject||'Tutor')}
+    </div>
+  </div>`).join(''):`<div class="empty"><div class="empty-icon">&#128218;</div>No tutors listed yet. Be the first!</div>`;
+}
+
+function openModal(id,col){
+  const item=getArr(col).find(x=>x.id===id);if(!item)return;
+  const icons={email:'&#128231;',phone:'&#128222;',social:'&#128242;'};
+  const labels={email:'Email',phone:'Phone',social:'Social Media'};
+  const badges={jobs:`<span class="badge ${item.type==='professional'?'pro':''}">${item.type==='professional'?'Professional':'Non-Professional'}</span>`,seekers:'<span class="badge seeker">Job Seeker</span>',gigs:`<span class="badge gig">${esc(item.cat||'Gig')}</span>`,businesses:`<span class="badge biz">${esc(item.cat||'Business')}</span>${item.verified?'<span class="badge verified">Verified</span>':''}${item.featured?'<span class="badge featured">Featured</span>':''}`,tutors:`<span class="badge tutor">${esc(item.cat||'Tutor')}</span>`};
+  const titles={jobs:item.title,seekers:`${item.username||'Seeker'}${item.seekTitle?` - ${item.seekTitle}`:' - Looking for Work'}`,gigs:item.title,businesses:item.name,tutors:item.subject};
+  const descs={jobs:item.desc,seekers:item.bio,gigs:item.desc,businesses:item.desc,tutors:item.bio};
+  gi('modal-badge').innerHTML=badges[col]||'';
+  gi('modal-title').textContent=titles[col]||'';
+  gi('modal-meta').textContent=`${item.location||''} - ${ago(item.postedAt)} - ${days(item.postedAt)} day${days(item.postedAt)!==1?'s':''} active`;
+  gi('modal-desc').textContent=descs[col]||'';
+  let extra='';
+  if(col==='gigs'&&item.price)extra+=`<div style="margin-top:10px;padding:8px 12px;background:var(--green-light);border-radius:8px;font-size:.88rem"><strong>Price:</strong> ${esc(item.price)}</div>`;
+  if(col==='businesses'){if(item.hours)extra+=`<div style="margin-top:10px;padding:8px 12px;background:var(--green-light);border-radius:8px;font-size:.88rem"><strong>Hours:</strong> ${esc(item.hours)}</div>`;if(item.web)extra+=`<div style="margin-top:6px;padding:8px 12px;background:var(--green-light);border-radius:8px;font-size:.88rem"><strong>Web/Social:</strong> ${esc(item.web)}</div>`;}
+  if(col==='tutors'){if(item.fee)extra+=`<div style="margin-top:10px;padding:8px 12px;background:var(--green-light);border-radius:8px;font-size:.88rem"><strong>Fee:</strong> ${esc(item.fee)}</div>`;if(item.mode)extra+=`<div style="margin-top:6px;padding:8px 12px;background:var(--green-light);border-radius:8px;font-size:.88rem"><strong>Mode:</strong> ${esc(item.mode)}</div>`;}
+  gi('modal-extra').innerHTML=extra;
+  const cb=gi('modal-contact-box'),cd=gi('modal-contact');
+  if(CU){cb.classList.remove('hidden-contact');cb.style.display='';cd.innerHTML=`<div class="contact-item"><span>${icons[item.contactType]||icons.email}</span><span><strong>${labels[item.contactType]||'Contact'}:</strong> ${esc(item.contactVal)}</span></div>`;}
+  else{cb.classList.add('hidden-contact');cd.innerHTML=`<p style="color:var(--muted);font-size:.86rem">&#128274; <a onclick="window._s&&window._s.showPage('login')" style="color:var(--green);cursor:pointer;font-weight:600">Log in</a> or <a onclick="window._s&&window._s.showPage('signup')" style="color:var(--green);cursor:pointer;font-weight:600">sign up</a> to view contact details.</p>`;}
+  renderMLike(item,col);
+  const acts=gi('modal-actions');acts.innerHTML='';
+  const isAdmin=CP?.email===AE,isOwner=CU&&item.poster===CU.uid;
+  if((isOwner||isAdmin)&&col==='jobs'){const b=document.createElement('button');b.className='btn btn-red btn-sm';b.textContent='Mark as Filled';b.onclick=()=>markFilled(id);acts.appendChild(b);}
+  if((isOwner||isAdmin)&&col==='seekers'){const b=document.createElement('button');b.className='btn btn-green btn-sm';b.textContent='Job Gotten';b.onclick=()=>markGotten(id);acts.appendChild(b);}
+  if(isAdmin){const b=document.createElement('button');b.className='btn btn-red btn-sm';b.textContent='Delete';b.onclick=()=>adminDel(id,col);acts.appendChild(b);}
+  if(CU&&!isOwner){const b=document.createElement('button');b.className='btn btn-outline btn-sm';b.innerHTML='&#128172; Chat';b.onclick=()=>{closeModal();startChat(item.poster,id,titles[col]||'');};acts.appendChild(b);}
+  gi('modal-overlay').classList.add('open');
+}
+function closeModal(e){if(!e||e.target===gi('modal-overlay'))gi('modal-overlay').classList.remove('open');}
+
+function getCid(a,b){return[a,b].sort().join('_');}
+
+async function startChat(otherUid,listingId,listingTitle){
+  if(!CU){toast('Log in to chat.');return;}
+  if(otherUid===CU.uid){toast('Cannot chat with yourself.');return;}
+  const cid=getCid(CU.uid,otherUid);chatId=cid;
+  let oName='User';
+  try{const s=await getDoc(doc(db,'users',otherUid));if(s.exists())oName=s.data().username||'User';}catch(e){}
+  gi('chat-with-name').textContent=oName;
+  gi('chat-about').textContent=listingTitle?`re: ${listingTitle}`:'';
+  try{await setDoc(doc(db,'conversations',cid),{participants:[CU.uid,otherUid],lastMessage:'',lastAt:serverTimestamp(),listingId:listingId||'',listingTitle:listingTitle||''},{merge:true});}catch(e){}
+  gi('chat-overlay').classList.add('open');
+  gi('chat-messages').innerHTML='<div class="loading" style="padding:20px">Loading...</div>';
+  if(chatUnsub)chatUnsub();
+  const ref=query(collection(db,'conversations',cid,'messages'),orderBy('sentAt','asc'),limit(100));
+  chatUnsub=onSnapshot(ref,snap=>{
+    const msgs=snap.docs.map(d=>d.data());
+    const c=gi('chat-messages');
+    c.innerHTML=msgs.length?msgs.map(m=>{
+      const mine=m.sender===CU.uid;
+      const t=m.sentAt?new Date(m.sentAt.toMillis?.()??m.sentAt).toLocaleTimeString('en-NG',{hour:'2-digit',minute:'2-digit'}):'';
+      return`<div class="msg ${mine?'mine':'theirs'}">${esc(m.text)}<div class="msg-time">${t}</div></div>`;
+    }).join(''):`<div style="text-align:center;color:var(--muted);padding:30px;font-size:.88rem">No messages yet. Say hello!</div>`;
+    c.scrollTop=c.scrollHeight;
+  });
+}
+
+async function sendMsg(){
+  if(!CU||!chatId)return;
+  const inp=gi('chat-input');const txt=inp.value.trim();if(!txt)return;inp.value='';
+  try{
+    await addDoc(collection(db,'conversations',chatId,'messages'),{text:txt,sender:CU.uid,sentAt:serverTimestamp()});
+    await updateDoc(doc(db,'conversations',chatId),{lastMessage:txt,lastAt:serverTimestamp()});
+  }catch(e){toast('Could not send.');}
+}
+
+function closeChat(){gi('chat-overlay').classList.remove('open');if(chatUnsub){chatUnsub();chatUnsub=null;}chatId=null;}
+
+async function loadInbox(){
+  if(!CU){gi('inbox-list').innerHTML=`<div class="empty"><div class="empty-icon">&#128172;</div><a onclick="window._s&&window._s.showPage('login')" style="color:var(--green);cursor:pointer;font-weight:600">Log in</a> to see your messages.</div>`;return;}
+  gi('inbox-list').innerHTML='<div class="loading">Loading...</div>';
+  try{
+    const snap=await getDocs(query(collection(db,'conversations'),where('participants','array-contains',CU.uid),orderBy('lastAt','desc')));
+    const convos=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(!convos.length){gi('inbox-list').innerHTML='<div class="empty"><div class="empty-icon">&#128172;</div>No messages yet. Chat someone from a listing!</div>';return;}
+    const rows=await Promise.all(convos.map(async c=>{
+      const oid=c.participants.find(p=>p!==CU.uid);let oName='User';
+      try{const us=await getDoc(doc(db,'users',oid));if(us.exists())oName=us.data().username||'User';}catch(e){}
+      return{...c,oid,oName};
+    }));
+    gi('inbox-list').innerHTML=rows.map(r=>`
+      <div class="inbox-row" onclick="window._s&&window._s.startChat('${esc(r.oid)}','${esc(r.listingId||'')}','${esc(r.listingTitle||'')}')">
+        <div class="inbox-avatar">${(r.oName||'U')[0].toUpperCase()}</div>
+        <div style="flex:1;min-width:0">
+          <div class="inbox-name">${esc(r.oName)}</div>
+          <div class="inbox-preview">${r.listingTitle?`re: ${esc(r.listingTitle)} - `:''} ${esc(r.lastMessage||'Start chatting')}</div>
+        </div>
+        <div class="inbox-time">${ago(r.lastAt)}</div>
+      </div>`).join('');
+    gi('stat-msgs').textContent=rows.length;
+  }catch(e){gi('inbox-list').innerHTML='<div class="empty"><div class="empty-icon">&#9888;</div>Could not load messages.</div>';}
+}
+
+async function renderAccount(){
+  if(!CU)return;
+  try{
+    await CU.reload();
+    const s=await getDoc(doc(db,'users',CU.uid));if(!s.exists())return;
+    CP=s.data();
+    const isAdmin=CP.email===AE;
+    gi('dash-title').textContent=`Hi, ${CP.username}${isAdmin?' - Admin':''}`;
+    const d=days(CP.createdAt);
+    const de=gi('stat-days');if(de)de.textContent=d;
+    const vw=gi('verify-wrap');
+    if(!isAdmin&&!CU.emailVerified){vw.innerHTML=`<div class="verify-banner">Please verify your email to post listings. <button onclick="window._s&&window._s.resendVerify()">Resend Email</button></div>`;}
+    else vw.innerHTML='';
+    const myAll=[...aJobs,...aSeekers,...aGigs,...aBiz,...aTutors].filter(x=>x.poster===CU.uid);
+    gi('stat-listings').textContent=myAll.length;
+    // Show action buttons to all non-admin users
+    const ua=gi('user-actions');
+    if(ua)ua.style.display=isAdmin?'none':'block';
+    // All posting sections hidden by default — user opens them via buttons
+    // Admin sees none of them
+    ['recruiter-section','seeker-section','provider-section','business-section','tutor-section'].forEach(id=>{
+      const e=gi(id);if(e)e.style.display='none';
+    });
+    const as=gi('admin-section');
+    if(isAdmin){as.style.display='block';await renderAdmin(as);}else as.style.display='none';
+    const ml=gi('my-listings');
+    if(!myAll.length&&!isAdmin){ml.innerHTML=`<div class="empty"><div class="empty-icon">&#128203;</div>No listings yet.</div>`;return;}
+    if(isAdmin){ml.innerHTML='';return;}
+    ml.innerHTML=myAll.map(item=>{
+      const isJ=item._col==='jobs',isSk=item._col==='seekers';
+      const title=isJ?esc(item.title):isSk?'My Seeker Profile':item._col==='gigs'?esc(item.title):item._col==='businesses'?esc(item.name):esc(item.subject);
+      const likes=item.likes||[];
+      return`<div class="card">
+        <div class="card-top">
+          <div><h3 style="cursor:default">${title}</h3><span class="badge ${item._col==='gigs'?'gig':item._col==='businesses'?'biz':item._col==='tutors'?'tutor':isJ&&item.type==='professional'?'pro':isSk?'seeker':''}">${item._col}</span></div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+            ${isJ?`<button class="btn btn-red btn-sm" onclick="window._s&&window._s.markFilled('${esc(item.id)}')">Job Filled</button>`:''}
+            ${isSk?`<button class="btn btn-green btn-sm" onclick="window._s&&window._s.markGotten('${esc(item.id)}')">Job Gotten</button>`:''}
+          </div>
+        </div>
+        <div class="card-meta"><span>&#128205; ${esc(item.location||'')}</span><span>${ago(item.postedAt)}</span></div>
+        ${likes.length?`<div style="margin-top:6px;font-size:.8rem;color:var(--muted)">&#128077; ${likes.length} like${likes.length!==1?'s':''} &middot; <span class="who-liked" onclick="window._s&&window._s.showLikers('${esc(item.id)}','${item._col}')">See who liked</span></div>`:''}
+      </div>`;
+    }).join('');
+  }catch(e){console.error(e);}
+}
+
+async function renderAdmin(container){
+  const stats=await getStats();
+  const uSnap=await getDocs(collection(db,'users'));
+  const jSnap=await getDocs(collection(db,'jobs'));
+  const skSnap=await getDocs(collection(db,'seekers'));
+  const gSnap=await getDocs(collection(db,'gigs'));
+  const bSnap=await getDocs(collection(db,'businesses'));
+  const tSnap=await getDocs(collection(db,'tutors'));
+  let pRows=[],rev=0,wdraw=0,succ=0,pend=0,fail=0;
+  try{
+    const ps=await getDocs(query(collection(db,'payments'),orderBy('createdAt','desc')));
+    pRows=ps.docs.map(d=>d.data());
+    pRows.forEach(p=>{if(p.status==='success'){rev+=(p.amount||0);succ++;}else if(p.status==='pending')pend++;else fail++;});
+    const ws=await getDocs(collection(db,'withdrawals'));
+    ws.docs.forEach(d=>wdraw+=(d.data().amount||0));
+  }catch(e){}
+  const all=[...aJobs,...aSeekers,...aGigs,...aBiz,...aTutors];
+  container.innerHTML=`<div class="admin-box">
+    <h3>Admin Dashboard</h3>
+    <div class="admin-grid">
+      <div class="admin-stat"><div class="n">${uSnap.size}</div><div class="l">Users</div></div>
+      <div class="admin-stat"><div class="n">${jSnap.size}</div><div class="l">Jobs</div></div>
+      <div class="admin-stat"><div class="n">${skSnap.size}</div><div class="l">Seekers</div></div>
+      <div class="admin-stat"><div class="n">${gSnap.size}</div><div class="l">Gigs</div></div>
+      <div class="admin-stat"><div class="n">${bSnap.size}</div><div class="l">Businesses</div></div>
+      <div class="admin-stat"><div class="n">${tSnap.size}</div><div class="l">Tutors</div></div>
+      <div class="admin-stat"><div class="n">${stats.total||0}</div><div class="l">Connections</div></div>
+      <div class="admin-stat"><div class="n">${(stats.job_filled||0)+(stats.job_gotten||0)}</div><div class="l">Filled/Gotten</div></div>
+    </div>
+    <div class="pay-box">
+      <h4>Earnings Dashboard</h4>
+      <div class="pay-stat-grid">
+        <div class="pay-stat"><div class="pn">N${(rev/100).toLocaleString('en-NG',{minimumFractionDigits:2})}</div><div class="pl">Total Revenue</div></div>
+        <div class="pay-stat"><div class="pn">N${(wdraw/100).toLocaleString('en-NG',{minimumFractionDigits:2})}</div><div class="pl">Withdrawals</div></div>
+        <div class="pay-stat"><div class="pn">N${((rev-wdraw)/100).toLocaleString('en-NG',{minimumFractionDigits:2})}</div><div class="pl">Balance</div></div>
+        <div class="pay-stat"><div class="pn">${succ}</div><div class="pl">Successful</div></div>
+        <div class="pay-stat"><div class="pn">${pend}</div><div class="pl">Pending</div></div>
+        <div class="pay-stat"><div class="pn">${fail}</div><div class="pl">Failed</div></div>
+      </div>
+      <button class="btn btn-green btn-sm" style="margin-bottom:12px" onclick="window._s&&window._s.doWithdraw()">Withdraw Funds</button>
+      <div style="font-weight:600;font-size:.82rem;color:var(--dark);margin-bottom:8px">Recent Transactions</div>
+      ${pRows.slice(0,8).map(p=>`<div class="txn-row"><div><div style="font-weight:600">${esc(p.name||p.email||'User')}</div><div style="color:var(--muted);font-size:.76rem">${esc(p.channel||'Paystack')}</div></div><div style="text-align:right"><div style="font-weight:700">N${((p.amount||0)/100).toLocaleString()}</div><span class="txn-status ${p.status||'pending'}">${p.status||'pending'}</span></div></div>`).join('')||'<p style="color:var(--muted);font-size:.82rem;text-align:center;padding:10px">No payment records yet.</p>'}
+    </div>
+    <div class="section-title" style="font-size:.95rem">All Listings</div>
+    <div>${all.slice(0,30).map(item=>{
+      const label=item._col==='jobs'?esc(item.title):item._col==='seekers'?esc(item.username||'Seeker'):item._col==='gigs'?esc(item.title):item._col==='businesses'?esc(item.name):esc(item.subject);
+      return`<div class="card" style="margin-bottom:7px">
+        <div class="card-top">
+          <div><span style="font-size:.88rem;font-weight:700">${label}</span> <span class="badge ${item._col==='gigs'?'gig':item._col==='businesses'?'biz':item._col==='tutors'?'tutor':'pro'}" style="margin-left:4px">${item._col}</span></div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap">
+            ${item._col==='jobs'?`<button class="btn btn-gold btn-sm" onclick="window._s&&window._s.markFilled('${esc(item.id)}')">Filled</button>`:''}
+            ${item._col==='seekers'?`<button class="btn btn-green btn-sm" onclick="window._s&&window._s.markGotten('${esc(item.id)}')">Gotten</button>`:''}
+            ${item._col==='businesses'?`<button class="btn btn-sm" style="background:var(--teal);color:#fff" onclick="window._s&&window._s.adminVerifyBiz('${esc(item.id)}',${!item.verified})">${item.verified?'Unverify':'Verify'}</button>`:''}
+            <button class="btn btn-red btn-sm" onclick="window._s&&window._s.adminDel('${esc(item.id)}','${item._col}')">Delete</button>
+          </div>
+        </div>
+        <div style="font-size:.76rem;color:var(--muted);margin-top:3px">&#128205; ${esc(item.location||'')} - ${ago(item.postedAt)} - &#128077; ${(item.likes||[]).length}</div>
+      </div>`;
+    }).join('')||'<p style="color:var(--muted);font-size:.83rem">No listings yet.</p>'}</div>
+    <div class="two-col" style="margin-top:18px">
+      <div>
+        <div class="section-title" style="font-size:.9rem">Post Job (Admin)</div>
+        <div class="field"><label>Title</label><input type="text" id="aj-title" maxlength="100"/></div>
+        <div class="field"><label>Type</label><select id="aj-type"><option value="professional">Professional</option><option value="non-professional">Non-Professional</option></select></div>
+        <div class="field"><label>LGA</label><select id="aj-lga" onchange="window._s&&window._s.updT('aj-lga','aj-town','aj-ow')"><option value="">Select</option></select></div>
+        <div class="field"><label>Town</label><select id="aj-town" onchange="window._s&&window._s.togO('aj-town','aj-ow')"><option>LGA first</option></select></div>
+        <div class="field" id="aj-ow" style="display:none"><input type="text" id="aj-other" maxlength="80"/></div>
+        <div class="field"><label>Description</label><textarea id="aj-desc" maxlength="2000"></textarea></div>
+        <div class="field"><label>Contact</label><select id="aj-ctype" onchange="window._s&&window._s.togC('aj-ctype','aj-cval','aj-clbl')"><option value="email">Email</option><option value="phone">Phone</option><option value="social">Social</option></select></div>
+        <div class="field"><label id="aj-clbl">Email</label><input type="text" id="aj-cval" maxlength="100"/></div>
+        <div class="field"><label>Slots</label><select id="aj-slots"><option value="unlimited">Unlimited</option><option value="1">1</option><option value="many">Many</option></select></div>
+        <div class="err" id="aj-err"></div>
+        <button class="btn btn-blue btn-sm" onclick="window._s&&window._s.adminPostJob()">Post Job</button>
+      </div>
+      <div>
+        <div class="section-title" style="font-size:.9rem">Add Seeker (Admin)</div>
+        <div class="field"><label>Name</label><input type="text" id="as-name" maxlength="50"/></div>
+        <div class="field"><label>Job Title</label><input type="text" id="as-title" maxlength="80"/></div>
+        <div class="field"><label>Type</label><select id="as-type"><option value="professional">Professional</option><option value="non-professional">Non-Professional</option><option value="any">Any</option></select></div>
+        <div class="field"><label>LGA</label><select id="as-lga" onchange="window._s&&window._s.updT('as-lga','as-town','as-ow')"><option value="">Select</option></select></div>
+        <div class="field"><label>Town</label><select id="as-town" onchange="window._s&&window._s.togO('as-town','as-ow')"><option>LGA first</option></select></div>
+        <div class="field" id="as-ow" style="display:none"><input type="text" id="as-other" maxlength="80"/></div>
+        <div class="field"><label>Bio</label><textarea id="as-bio" maxlength="2000"></textarea></div>
+        <div class="field"><label>Contact</label><select id="as-ctype" onchange="window._s&&window._s.togC('as-ctype','as-cval','as-clbl')"><option value="email">Email</option><option value="phone">Phone</option><option value="social">Social</option></select></div>
+        <div class="field"><label id="as-clbl">Email</label><input type="text" id="as-cval" maxlength="100"/></div>
+        <div class="err" id="as-err"></div>
+        <button class="btn btn-blue btn-sm" onclick="window._s&&window._s.adminPostSeeker()">Add Seeker</button>
+      </div>
+    </div>
+  </div>`;
+  ['aj-lga','as-lga'].forEach(id=>{const e=gi(id);if(!e)return;e.innerHTML='<option value="">Select LGA</option>';LGAS.forEach(l=>e.innerHTML+=`<option value="${l}">${l}</option>`);});
+}
+
+async function adminVerifyBiz(id,v){
+  try{await updateDoc(doc(db,'businesses',id),{verified:v});toast(v?'Business verified!':'Verification removed.');await loadAll();renderAccount();}
+  catch(e){toast('Error updating.');}
+}
+
+async function doWithdraw(){
+  const amt=prompt('Amount to withdraw (Naira):');
+  if(!amt||isNaN(amt)||Number(amt)<=0){toast('Invalid amount.');return;}
+  const method=prompt('Method (bank or paystack):')?.toLowerCase();
+  if(!method||!['bank','paystack'].includes(method)){toast('Enter bank or paystack.');return;}
+  try{
+    await setDoc(doc(db,'withdrawals','w'+Date.now()),{amount:Number(amt)*100,method,requestedBy:CU.uid,createdAt:serverTimestamp(),status:'pending'});
+    toast(`N${Number(amt).toLocaleString()} withdrawal submitted!`);
+    await renderAdmin(gi('admin-section'));
+  }catch(e){toast('Error submitting.');}
+}
+
+async function adminPostJob(){
+  hi('aj-err');
+  const title=(gi('aj-title')?.value.trim())||'';const type=(gi('aj-type')?.value)||'professional';
+  const loc=getLoc('aj-lga','aj-town','aj-other');const desc=(gi('aj-desc')?.value.trim())||'';
+  const ct=(gi('aj-ctype')?.value)||'email';const cv=(gi('aj-cval')?.value.trim())||'';
+  const slots=(gi('aj-slots')?.value)||'unlimited';
+  if(!title||!desc||!cv||!loc){sh('aj-err','Fill all fields.');return;}
+  try{
+    const id='j'+Date.now();
+    await setDoc(doc(db,'jobs',id),{id,title,type,location:loc,desc,contactType:ct,contactVal:cv,slots,poster:CU.uid,postedAt:serverTimestamp(),likes:[],filled:false,adminPosted:true});
+    toast('Job posted!');await loadAll();renderAccount();
+  }catch(e){sh('aj-err','Error posting.');}
+}
+
+async function adminPostSeeker(){
+  hi('as-err');
+  const name=(gi('as-name')?.value.trim())||'';const st=(gi('as-title')?.value.trim())||'';
+  const type=(gi('as-type')?.value)||'any';const loc=getLoc('as-lga','as-town','as-other');
+  const bio=(gi('as-bio')?.value.trim())||'';const ct=(gi('as-ctype')?.value)||'email';const cv=(gi('as-cval')?.value.trim())||'';
+  if(!name||!bio||!cv||!loc){sh('as-err','Fill all fields.');return;}
+  try{
+    const id='s'+Date.now();
+    await setDoc(doc(db,'seekers',id),{id,type,seekTitle:st,location:loc,bio,contactType:ct,contactVal:cv,poster:CU.uid,username:name,postedAt:serverTimestamp(),likes:[],filled:false,adminPosted:true});
+    toast('Seeker added!');await loadAll();renderAccount();
+  }catch(e){sh('as-err','Error adding.');}
+}
+
+function toggleForm(id){
+  const sections=['recruiter-section','seeker-section','provider-section','business-section','tutor-section'];
+  const target=gi(id);if(!target)return;
+  const isOpen=target.style.display==='block';
+  // Close all first
+  sections.forEach(s=>{const e=gi(s);if(e)e.style.display='none';});
+  // Open the one clicked unless it was already open
+  if(!isOpen)target.style.display='block';
+  if(!isOpen)target.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function jobTab(tab,el){jtab=tab;el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderJobs();}
+function gigTab(tab,el){gtab=tab;el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderGigs();}
+function bizTab(tab,el){btab=tab;el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderBiz();}
+function tutTab(tab,el){ttab=tab;el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderTutors();}
+
+function updateNav(){
+  const isAdmin=CU&&CP?.email===AE;
+  gi('nav-links').innerHTML=CU
+    ?`<button onclick="window._s&&window._s.showPage('account')" class="btn-primary${isAdmin?' btn-admin':''}">My Account</button>`
+    :`<button onclick="window._s&&window._s.showPage('login')">Login</button><button onclick="window._s&&window._s.showPage('signup')" class="btn-primary">Sign Up</button>`;
+}
+
+function showSection(sec){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  const pg=gi('page-'+sec);if(pg)pg.classList.add('active');
+  document.querySelectorAll('.snav-btn').forEach(b=>b.classList.toggle('active',b.dataset.sec===sec));
+  if(sec==='messages')loadInbox();
+  window.scrollTo(0,0);
+}
+
+function showPage(p){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  const pg=gi('page-'+p);if(pg)pg.classList.add('active');
+  document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));
+  if(p==='account'){if(!CU){showPage('login');return;}loadAll().then(()=>renderAccount());}
+  updateNav();window.scrollTo(0,0);
+}
+
+function showBanner(title){gi('banner-text').innerHTML=`Someone just connected for <strong>${esc(String(title))}</strong>!`;gi('job-banner').style.display='block';setTimeout(closeBanner,8000);}
+function closeBanner(){gi('job-banner').style.display='none';}
+function showPopup(msg){gi('popup-msg').textContent=msg;gi('popup-overlay').classList.add('open');}
+function closePopup(){gi('popup-overlay').classList.remove('open');}
+
+window._s={
+  showPage,showSection,goAccount,toggleForm,
+  jobTab,gigTab,bizTab,tutTab,
+  doSignup,doLogin,forgotPw,doLogout,
+  confirmDel,cancelReauth,doReauth,adminDel,adminVerifyBiz,
+  postJob,postSeeker,postGig,postBusiness,postTutor,
+  markFilled,markGotten,
+  openModal,closeModal,closeBanner,closePopup,
+  updT,togO,togC,
+  adminPostJob,adminPostSeeker,doWithdraw,
+  toggleLike,showLikers,viewLiker,
+  toggleInt,startChat,sendMsg,closeChat,
+  renderJobs,renderGigs,renderBiz,renderTutors,
+  resendVerify
+};
+
+populateLGAs();
+</script>
+</body>
+</html>
