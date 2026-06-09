@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-<meta http-equiv="Pragma" content="no-cache"/>
-<meta http-equiv="Expires" content="0"/>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Sriva – Jobs & Services in Rivers State</title>
@@ -211,7 +208,7 @@ footer{text-align:center;padding:28px 16px;color:var(--muted);font-size:.78rem;b
   <button class="snav-btn active" data-sec="jobs" onclick="window._s&&window._s.showSection('jobs')">Jobs</button>
   <button class="snav-btn" data-sec="gigs" onclick="window._s&&window._s.showSection('gigs')">Gigs</button>
   <button class="snav-btn" data-sec="businesses" onclick="window._s&&window._s.showSection('businesses')">Businesses</button>
-  <button class="snav-btn" data-sec="tutors" onclick="window._s&&window._s.showSection('tutors')">Tutor</button>
+  <button class="snav-btn" data-sec="tutors" onclick="window._s&&window._s.showSection('tutors')">Learn</button>
   <button class="snav-btn" data-sec="messages" onclick="window._s&&window._s.showSection('messages')">Messages</button>
 </div>
 
@@ -397,8 +394,8 @@ footer{text-align:center;padding:28px 16px;color:var(--muted);font-size:.78rem;b
     <h2>Jobs in Rivers State</h2>
     <p>Connecting job seekers and recruiters across Rivers State. No CV needed.</p>
     <div class="hero-btns">
-      <button class="btn btn-green" onclick="window._s&&window._s.goAccount()">Post a Job</button>
-      <button class="btn btn-outline" onclick="window._s&&window._s.goAccount()">I am Looking for Work</button>
+      <button class="btn btn-green" onclick="window._s&&window._s.goAccount('recruiter-section')">Post a Job</button>
+      <button class="btn btn-outline" onclick="window._s&&window._s.goAccount('seeker-section')">I am Looking for Work</button>
     </div>
   </div>
   <div class="tabs" id="jobs-tabs">
@@ -422,8 +419,8 @@ footer{text-align:center;padding:28px 16px;color:var(--muted);font-size:.78rem;b
     <h2>Gigs and Services</h2>
     <p>Find skilled people for one-off jobs or offer your own services to people in Rivers State.</p>
     <div class="hero-btns">
-      <button class="btn btn-green" onclick="window._s&&window._s.goAccount()">Offer a Service</button>
-      <button class="btn btn-outline" onclick="window._s&&window._s.goAccount()">Post a Task</button>
+      <button class="btn btn-green" onclick="window._s&&window._s.goAccount('provider-section')">Offer a Service</button>
+      <button class="btn btn-outline" onclick="window._s&&window._s.goAccount('provider-section')">Post a Task</button>
     </div>
   </div>
   <div class="tabs">
@@ -450,7 +447,7 @@ footer{text-align:center;padding:28px 16px;color:var(--muted);font-size:.78rem;b
     <h2>Business Directory</h2>
     <p>Discover local businesses in Rivers State. From pharmacies to tech companies.</p>
     <div class="hero-btns">
-      <button class="btn btn-gold" onclick="window._s&&window._s.goAccount()">List Your Business</button>
+      <button class="btn btn-gold" onclick="window._s&&window._s.goAccount('business-section')">List Your Business</button>
     </div>
   </div>
   <div class="tabs">
@@ -476,8 +473,8 @@ footer{text-align:center;padding:28px 16px;color:var(--muted);font-size:.78rem;b
     <h2>Learn a Skill</h2>
     <p>Find tutors and trainers in Rivers State. Academic, vocational, digital and more.</p>
     <div class="hero-btns">
-      <button class="btn btn-green" onclick="window._s&&window._s.goAccount()">Become a Tutor</button>
-      <button class="btn btn-outline" onclick="window._s&&window._s.goAccount()">Find a Tutor</button>
+      <button class="btn btn-green" onclick="window._s&&window._s.goAccount('tutor-section')">Become a Tutor</button>
+      <button class="btn btn-outline" onclick="window._s&&window._s.goAccount('tutor-section')">Find a Tutor</button>
     </div>
   </div>
   <div class="tabs">
@@ -576,7 +573,7 @@ footer{text-align:center;padding:28px 16px;color:var(--muted);font-size:.78rem;b
 </div>
 
 <div id="toast"></div>
-<footer>Sriva &copy; 2026 &middot; Jobs &middot; Gigs &middot; Businesses &middot; Tutor &middot; Rivers State &middot; Free for everyone</footer>
+<footer>Sriva &copy; 2026 &middot; Jobs &middot; Gigs &middot; Businesses &middot; Learn &middot; Rivers State &middot; Free for everyone</footer>
 
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
@@ -705,7 +702,7 @@ async function nukeUser(msg){
 }
 
 async function resendVerify(){if(!CU)return;try{await sendEmailVerification(CU);toast('Verification email sent!');}catch(e){toast('Could not resend. Try shortly.');}}
-function goAccount(){if(!CU){showPage('login');return;}showPage('account');}
+
 
 async function loadAll(){
   try{
@@ -1331,11 +1328,26 @@ function toggleForm(id){
   const sections=['recruiter-section','seeker-section','provider-section','business-section','tutor-section'];
   const target=gi(id);if(!target)return;
   const isOpen=target.style.display==='block';
-  // Close all first
   sections.forEach(s=>{const e=gi(s);if(e)e.style.display='none';});
-  // Open the one clicked unless it was already open
-  if(!isOpen)target.style.display='block';
-  if(!isOpen)target.scrollIntoView({behavior:'smooth',block:'start'});
+  if(!isOpen){
+    target.style.display='block';
+    setTimeout(()=>target.scrollIntoView({behavior:'smooth',block:'start'}),150);
+  }
+}
+
+function goAccount(formId){
+  if(!CU){showPage('login');return;}
+  // Navigate to account page, then open the requested form
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  const pg=gi('page-account');if(pg)pg.classList.add('active');
+  document.querySelectorAll('.snav-btn').forEach(b=>b.classList.remove('active'));
+  updateNav();
+  loadAll().then(()=>{
+    renderAccount().then(()=>{
+      if(formId) setTimeout(()=>toggleForm(formId),300);
+    });
+  });
+  window.scrollTo(0,0);
 }
 
 function jobTab(tab,el){jtab=tab;el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderJobs();}
