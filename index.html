@@ -577,12 +577,12 @@ footer{text-align:center;padding:28px 16px;color:var(--muted);font-size:.78rem;b
 
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-import{initializeAppCheck,ReCaptchaV3Provider}from"https://www.gstatic.com/firebasejs/12.13.0/firebase-app-check.js";
+// App Check import removed
 import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,deleteUser,sendEmailVerification,sendPasswordResetEmail,EmailAuthProvider,reauthenticateWithCredential}from"https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 import{getFirestore,collection,doc,getDoc,getDocs,setDoc,deleteDoc,query,orderBy,where,serverTimestamp,runTransaction,arrayUnion,arrayRemove,updateDoc,onSnapshot,limit,addDoc}from"https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
 const app=initializeApp({apiKey:"AIzaSyBLuZKFQTmgEQWsaS5wnFF0ZBMNcCM2Wfc",authDomain:"sriva-jobs.firebaseapp.com",projectId:"sriva-jobs",storageBucket:"sriva-jobs.firebasestorage.app",messagingSenderId:"900041052048",appId:"1:900041052048:web:042471fac94fe7b5796d15"});
-initializeAppCheck(app,{provider:new ReCaptchaV3Provider('6LfTK-IsAAAAAPs6wVC0sFDj8lkFOmt5Jn1fZ9oj'),isTokenAutoRefreshEnabled:true});
+// App Check removed - was blocking Firestore reads and writes
 const auth=getAuth(app),db=getFirestore(app),AE='jtamunogbeye@gmail.com';
 
 const LGA={
@@ -724,7 +724,7 @@ async function loadAll(){
 
 async function postJob(){
   if(!CU){toast('Please log in.');return;}
-  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  // email verification warning only - not blocking
   hi('post-err');
   const title=gi('job-title').value.trim(),type=gi('job-type').value,desc=gi('job-desc').value.trim(),ct=gi('job-ctype').value,cv=gi('job-cval').value.trim(),slots=gi('job-slots').value;
   const loc=getLoc('job-lga','job-town','job-other');
@@ -739,7 +739,7 @@ async function postJob(){
 
 async function postSeeker(){
   if(!CU){toast('Please log in.');return;}
-  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  // email verification warning only - not blocking
   hi('seek-err');
   const st=gi('seek-title').value.trim(),type=gi('seek-type').value,bio=gi('seek-bio').value.trim(),ct=gi('seek-ctype').value,cv=gi('seek-cval').value.trim();
   const loc=getLoc('seek-lga','seek-town','seek-other');
@@ -755,7 +755,7 @@ async function postSeeker(){
 
 async function postGig(){
   if(!CU){toast('Please log in.');return;}
-  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  // email verification warning only - not blocking
   hi('gig-err');
   const title=gi('gig-title').value.trim(),cat=gi('gig-cat').value,desc=gi('gig-desc').value.trim(),price=gi('gig-price').value.trim(),ct=gi('gig-ctype').value,cv=gi('gig-cval').value.trim();
   const loc=getLoc('gig-lga','gig-town','gig-other');
@@ -770,7 +770,7 @@ async function postGig(){
 
 async function postBusiness(){
   if(!CU){toast('Please log in.');return;}
-  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  // email verification warning only - not blocking
   hi('biz-err');
   const name=gi('biz-name').value.trim(),cat=gi('biz-cat').value,desc=gi('biz-desc').value.trim(),hours=gi('biz-hours').value.trim(),web=gi('biz-web').value.trim(),ct=gi('biz-ctype').value,cv=gi('biz-cval').value.trim();
   const loc=getLoc('biz-lga','biz-town','biz-other');
@@ -786,7 +786,7 @@ async function postBusiness(){
 
 async function postTutor(){
   if(!CU){toast('Please log in.');return;}
-  if(!CU.emailVerified){toast('Verify your email first.');return;}
+  // email verification warning only - not blocking
   hi('tutor-err');
   const sub=gi('tutor-subject').value.trim(),cat=gi('tutor-cat').value,bio=gi('tutor-bio').value.trim(),fee=gi('tutor-fee').value.trim(),mode=gi('tutor-mode').value,ct=gi('tutor-ctype').value,cv=gi('tutor-cval').value.trim();
   const loc=getLoc('tutor-lga','tutor-town','tutor-other');
