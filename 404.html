@@ -611,7 +611,15 @@ function populateLGAs(){
 function updT(la,ta,wa){const le=gi(la);if(!le)return;const lv=le.value,te=gi(ta);hi(wa);if(!lv){if(te)te.innerHTML='<option>Select LGA first</option>';return;}const ts=LGA[lv]||['Other'];if(te)te.innerHTML=ts.map(t=>`<option value="${t}">${t}</option>`).join('');togO(ta,wa);}
 function togO(ta,wa){const e=gi(ta);if(!e)return;e.value==='Other'?sh(wa):hi(wa);}
 function togC(ti,vi,li){const e=gi(ti);if(!e)return;const t=e.value;const lb=gi(li);if(lb)lb.textContent={email:'Email Address',phone:'Phone Number',social:'Social Media Handle'}[t];const ip=gi(vi);if(ip)ip.placeholder={email:'e.g. you@gmail.com',phone:'e.g. 08012345678',social:'e.g. @yourhandle'}[t];}
-function getLoc(la,ta,oa){const lv=(gi(la)?.value)||'';const tv=(gi(ta)?.value)||'';const ov=(gi(oa)?.value?.trim())||'';if(!lv)return'';return tv==='Other'?`${lv} - ${ov||'Other'}`:`${lv} - ${tv}`;}
+function getLoc(la,ta,oa){
+  const lv=(gi(la)?.value)||'';
+  const tv=(gi(ta)?.value)||'';
+  const ov=(gi(oa)?.value?.trim())||'';
+  if(!lv)return'';
+  // If no town selected yet, just use LGA alone
+  if(!tv||tv==='Select LGA first'||tv==='Select LGA first...')return lv;
+  return tv==='Other'?`${lv} - ${ov||'Other'}`:`${lv} - ${tv}`;
+}
 
 async function incStat(type){
   try{
@@ -698,7 +706,7 @@ async function nukeUser(msg){
     await deleteUser(CU);CU=null;CP=null;
     if(msg)toast('Account deleted.');
     await loadAll();showSection('jobs');
-  }catch(e){toast('Error. Log out and back in first.');}
+  }catch(e){toast('Error: '+e.code+' '+e.message);console.error(e);}
 }
 
 async function resendVerify(){if(!CU)return;try{await sendEmailVerification(CU);toast('Verification email sent!');}catch(e){toast('Could not resend. Try shortly.');}}
@@ -706,20 +714,31 @@ async function resendVerify(){if(!CU)return;try{await sendEmailVerification(CU);
 
 async function loadAll(){
   try{
-    const [j,sk,g,b,t]=await Promise.all([
-      getDocs(query(collection(db,'jobs'),orderBy('postedAt','desc'))),
-      getDocs(query(collection(db,'seekers'),orderBy('postedAt','desc'))),
-      getDocs(query(collection(db,'gigs'),orderBy('postedAt','desc'))),
-      getDocs(query(collection(db,'businesses'),orderBy('postedAt','desc'))),
-      getDocs(query(collection(db,'tutors'),orderBy('postedAt','desc')))
+    // Load each collection independently so one failure does not block others
+    const loadCol = async (col) => {
+      try{
+        const snap = await getDocs(query(collection(db,col),orderBy('postedAt','desc')));
+        return snap.docs.map(d=>({...d.data(),_col:col}));
+      }catch(e){
+        console.warn('Could not load '+col+':',e.code,e.message);
+        // If index missing, try without orderBy
+        try{
+          const snap = await getDocs(collection(db,col));
+          const docs = snap.docs.map(d=>({...d.data(),_col:col}));
+          return docs.sort((a,b)=>(b.postedAt?.toMillis?.()||0)-(a.postedAt?.toMillis?.()||0));
+        }catch(e2){
+          console.warn('Fallback also failed for '+col+':',e2.message);
+          return [];
+        }
+      }
+    };
+    const [j,sk,g,b,t] = await Promise.all([
+      loadCol('jobs'),loadCol('seekers'),loadCol('gigs'),
+      loadCol('businesses'),loadCol('tutors')
     ]);
-    aJobs=j.docs.map(d=>({...d.data(),_col:'jobs'}));
-    aSeekers=sk.docs.map(d=>({...d.data(),_col:'seekers'}));
-    aGigs=g.docs.map(d=>({...d.data(),_col:'gigs'}));
-    aBiz=b.docs.map(d=>({...d.data(),_col:'businesses'}));
-    aTutors=t.docs.map(d=>({...d.data(),_col:'tutors'}));
+    aJobs=j;aSeekers=sk;aGigs=g;aBiz=b;aTutors=t;
     renderJobs();renderGigs();renderBiz();renderTutors();
-  }catch(e){console.error(e);}
+  }catch(e){console.error('loadAll failed:',e);}
 }
 
 async function postJob(){
@@ -728,13 +747,14 @@ async function postJob(){
   hi('post-err');
   const title=gi('job-title').value.trim(),type=gi('job-type').value,desc=gi('job-desc').value.trim(),ct=gi('job-ctype').value,cv=gi('job-cval').value.trim(),slots=gi('job-slots').value;
   const loc=getLoc('job-lga','job-town','job-other');
-  if(!title||!desc||!cv||!loc){sh('post-err','Fill all fields.');return;}
+  if(!title||!desc||!cv){sh('post-err','Fill all fields including title, description and contact.');return;}
+  if(!gi('job-lga')?.value){sh('post-err','Please select your LGA.');return;}
   try{
     const id='j'+Date.now();
     await setDoc(doc(db,'jobs',id),{id,title,type,location:loc,desc,contactType:ct,contactVal:cv,slots,poster:CU.uid,postedAt:serverTimestamp(),likes:[],filled:false});
     gi('job-title').value='';gi('job-desc').value='';gi('job-cval').value='';
     toast('Job posted!');await loadAll();renderAccount();
-  }catch(e){sh('post-err','Error posting.');}
+  }catch(e){sh('post-err','Error: '+e.code+' '+e.message);console.error(e);}
 }
 
 async function postSeeker(){
@@ -743,14 +763,15 @@ async function postSeeker(){
   hi('seek-err');
   const st=gi('seek-title').value.trim(),type=gi('seek-type').value,bio=gi('seek-bio').value.trim(),ct=gi('seek-ctype').value,cv=gi('seek-cval').value.trim();
   const loc=getLoc('seek-lga','seek-town','seek-other');
-  if(!bio||!cv||!loc){sh('seek-err','Fill all fields.');return;}
+  if(!bio||!cv){sh('seek-err','Fill all fields including bio and contact.');return;}
+  if(!gi('seek-lga')?.value){sh('seek-err','Please select your LGA.');return;}
   try{
     const old=await getDocs(query(collection(db,'seekers'),where('poster','==',CU.uid)));
     for(const d of old.docs)await deleteDoc(d.ref);
     const id='s'+Date.now();
     await setDoc(doc(db,'seekers',id),{id,type,seekTitle:st,location:loc,bio,contactType:ct,contactVal:cv,poster:CU.uid,username:CP?.username||'',postedAt:serverTimestamp(),likes:[],filled:false});
     toast('Profile saved!');await loadAll();renderAccount();
-  }catch(e){sh('seek-err','Error saving.');}
+  }catch(e){sh('seek-err','Error: '+e.code+' '+e.message);console.error(e);}
 }
 
 async function postGig(){
@@ -759,13 +780,14 @@ async function postGig(){
   hi('gig-err');
   const title=gi('gig-title').value.trim(),cat=gi('gig-cat').value,desc=gi('gig-desc').value.trim(),price=gi('gig-price').value.trim(),ct=gi('gig-ctype').value,cv=gi('gig-cval').value.trim();
   const loc=getLoc('gig-lga','gig-town','gig-other');
-  if(!title||!desc||!cv||!loc){sh('gig-err','Fill all required fields.');return;}
+  if(!title||!desc||!cv){sh('gig-err','Fill all required fields.');return;}
+  if(!gi('gig-lga')?.value){sh('gig-err','Please select your LGA.');return;}
   try{
     const id='g'+Date.now();
     await setDoc(doc(db,'gigs',id),{id,title,cat,desc,price,location:loc,contactType:ct,contactVal:cv,poster:CU.uid,username:CP?.username||'',postedAt:serverTimestamp(),likes:[],interested:[]});
     gi('gig-title').value='';gi('gig-desc').value='';gi('gig-price').value='';gi('gig-cval').value='';
     toast('Service posted!');await loadAll();renderAccount();
-  }catch(e){sh('gig-err','Error posting.');}
+  }catch(e){sh('gig-err','Error: '+e.code+' '+e.message);console.error(e);}
 }
 
 async function postBusiness(){
@@ -774,14 +796,15 @@ async function postBusiness(){
   hi('biz-err');
   const name=gi('biz-name').value.trim(),cat=gi('biz-cat').value,desc=gi('biz-desc').value.trim(),hours=gi('biz-hours').value.trim(),web=gi('biz-web').value.trim(),ct=gi('biz-ctype').value,cv=gi('biz-cval').value.trim();
   const loc=getLoc('biz-lga','biz-town','biz-other');
-  if(!name||!desc||!cv||!loc){sh('biz-err','Fill all required fields.');return;}
+  if(!name||!desc||!cv){sh('biz-err','Fill all required fields.');return;}
+  if(!gi('biz-lga')?.value){sh('biz-err','Please select your LGA.');return;}
   try{
     const old=await getDocs(query(collection(db,'businesses'),where('poster','==',CU.uid)));
     for(const d of old.docs)await deleteDoc(d.ref);
     const id='b'+Date.now();
     await setDoc(doc(db,'businesses',id),{id,name,cat,desc,hours,web,location:loc,contactType:ct,contactVal:cv,poster:CU.uid,username:CP?.username||'',postedAt:serverTimestamp(),likes:[],verified:false,featured:false});
     toast('Business listed!');await loadAll();renderAccount();
-  }catch(e){sh('biz-err','Error listing.');}
+  }catch(e){sh('biz-err','Error: '+e.code+' '+e.message);console.error(e);}
 }
 
 async function postTutor(){
@@ -790,14 +813,15 @@ async function postTutor(){
   hi('tutor-err');
   const sub=gi('tutor-subject').value.trim(),cat=gi('tutor-cat').value,bio=gi('tutor-bio').value.trim(),fee=gi('tutor-fee').value.trim(),mode=gi('tutor-mode').value,ct=gi('tutor-ctype').value,cv=gi('tutor-cval').value.trim();
   const loc=getLoc('tutor-lga','tutor-town','tutor-other');
-  if(!sub||!bio||!cv||!loc){sh('tutor-err','Fill all required fields.');return;}
+  if(!sub||!bio||!cv){sh('tutor-err','Fill all required fields.');return;}
+  if(!gi('tutor-lga')?.value){sh('tutor-err','Please select your LGA.');return;}
   try{
     const old=await getDocs(query(collection(db,'tutors'),where('poster','==',CU.uid)));
     for(const d of old.docs)await deleteDoc(d.ref);
     const id='t'+Date.now();
     await setDoc(doc(db,'tutors',id),{id,subject:sub,cat,bio,fee,mode,location:loc,contactType:ct,contactVal:cv,poster:CU.uid,username:CP?.username||'',postedAt:serverTimestamp(),likes:[]});
     toast('Tutor profile saved!');await loadAll();renderAccount();
-  }catch(e){sh('tutor-err','Error saving.');}
+  }catch(e){sh('tutor-err','Error: '+e.code+' '+e.message);console.error(e);}
 }
 
 async function markFilled(jid){
